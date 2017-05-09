@@ -27,6 +27,11 @@ namespace VendingMachineApp.Constants
         public String DiameterMetric = "inches";
         public String ThicknessMetric = "mm";
 
+        //Monetary Value
+        public double NickelsValue = 0.05;
+        public double DimesValue = 0.10;
+        public double QuartersValue = 0.25;
+
         //Listing weight,diameter and thickness for Nickels, Dimes and Quarters
         public List<double> acceptable_weight = new List<double> { NickelsWeight, DimesWeight, QuartersWeight };  //in grams
         public List<double> acceptable_diameter = new List<double> { NickelsDiameter, DimesDiameter, QuartersDiameter }; // in inches

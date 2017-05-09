@@ -29,6 +29,7 @@ namespace VendingMachineApp.Models
             }
             return isValidCoin;
         }
+
         public Boolean isValidCoinDimensions(double coinDimension, String dimensionName, String metricSystem)
         {
             Boolean isValidCoinDimensions = false;
@@ -54,6 +55,26 @@ namespace VendingMachineApp.Models
                     break;
             }           
             return isValidCoinDimensions;
+        }
+
+        public double calculateMonetaryValueofInsertedCoins(String coinType, int numberOfCoins)
+        {
+            double monetaryValueofInsertedCoins = 0.00;
+            double actualValueofEachCoinType = 0.00;
+            switch (coinType)
+            {
+                case "Quarters":
+                    actualValueofEachCoinType = cTypEnum.QuartersValue;
+                    break;
+                case "Nickels":
+                    actualValueofEachCoinType = cTypEnum.NickelsValue;
+                    break;
+                case "Dimes":
+                    actualValueofEachCoinType = cTypEnum.DimesValue;
+                    break;
+            }
+            monetaryValueofInsertedCoins = numberOfCoins * actualValueofEachCoinType;
+            return monetaryValueofInsertedCoins;
         }
     }
 }
