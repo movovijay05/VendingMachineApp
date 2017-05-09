@@ -23,9 +23,9 @@ namespace VendingMachineApp.Constants
         static double QuartersThickness = 1.75;
 
         //Dimension Metrics
-        public String WeightMetric = "grams";
-        public String DiameterMetric = "inches";
-        public String ThicknessMetric = "mm";
+        public string WeightMetric = "grams";
+        public string DiameterMetric = "inches";
+        public string ThicknessMetric = "mm";
 
         //Monetary Value
         public double NickelsValue = 0.05;

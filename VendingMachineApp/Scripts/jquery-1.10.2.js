@@ -474,7 +474,7 @@ jQuery.extend({
 
 	type: function( obj ) {
 		if ( obj == null ) {
-			return String( obj );
+			return string( obj );
 		}
 		return typeof obj === "object" || typeof obj === "function" ?
 			class2type[ core_toString.call(obj) ] || "object" :
@@ -688,7 +688,7 @@ jQuery.extend({
 		return obj;
 	},
 
-	// Use native String.trim function wherever possible
+	// Use native string.trim function wherever possible
 	trim: core_trim && !core_trim.call("\uFEFF\xA0") ?
 		function( text ) {
 			return text == null ?
@@ -990,7 +990,7 @@ jQuery.ready.promise = function( obj ) {
 };
 
 // Populate the class2type map
-jQuery.each("Boolean Number String Function Array Date RegExp Object Error".split(" "), function(i, name) {
+jQuery.each("Boolean Number string Function Array Date RegExp Object Error".split(" "), function(i, name) {
 	class2type[ "[object " + name + "]" ] = name.toLowerCase();
 });
 
@@ -1160,9 +1160,9 @@ var i,
 			escaped :
 			// BMP codepoint
 			high < 0 ?
-				String.fromCharCode( high + 0x10000 ) :
+				string.fromCharCode( high + 0x10000 ) :
 				// Supplemental Plane codepoint (surrogate pair)
-				String.fromCharCode( high >> 10 | 0xD800, high & 0x3FF | 0xDC00 );
+				string.fromCharCode( high >> 10 | 0xD800, high & 0x3FF | 0xDC00 );
 	};
 
 // Optimize for push.apply( _, NodeList )
@@ -1355,7 +1355,7 @@ function assert( fn ) {
 
 /**
  * Adds the same handler for all of the specified attrs
- * @param {String} attrs Pipe-separated list of attributes
+ * @param {string} attrs Pipe-separated list of attributes
  * @param {Function} handler The method that will be applied
  */
 function addHandle( attrs, handler ) {
@@ -1398,7 +1398,7 @@ function siblingCheck( a, b ) {
 
 /**
  * Returns a function to use in pseudos for input types
- * @param {String} type
+ * @param {string} type
  */
 function createInputPseudo( type ) {
 	return function( elem ) {
@@ -1409,7 +1409,7 @@ function createInputPseudo( type ) {
 
 /**
  * Returns a function to use in pseudos for buttons
- * @param {String} type
+ * @param {string} type
  */
 function createButtonPseudo( type ) {
 	return function( elem ) {
@@ -2992,10 +2992,10 @@ jQuery.contains = Sizzle.contains;
 
 
 })( window );
-// String to Object options format cache
+// string to Object options format cache
 var optionsCache = {};
 
-// Convert String-formatted options into Object-formatted ones and store in cache
+// Convert string-formatted options into Object-formatted ones and store in cache
 function createOptions( options ) {
 	var object = optionsCache[ options ] = {};
 	jQuery.each( options.match( core_rnotwhite ) || [], function( _, flag ) {
@@ -3028,7 +3028,7 @@ function createOptions( options ) {
  */
 jQuery.Callbacks = function( options ) {
 
-	// Convert options from String-formatted to Object-formatted if needed
+	// Convert options from string-formatted to Object-formatted if needed
 	// (we check in cache first)
 	options = typeof options === "string" ?
 		( optionsCache[ options ] || createOptions( options ) ) :
@@ -6596,11 +6596,11 @@ jQuery.extend({
 					// Remove IE's autoinserted <tbody> from table fragments
 					if ( !jQuery.support.tbody ) {
 
-						// String was a <table>, *may* have spurious <tbody>
+						// string was a <table>, *may* have spurious <tbody>
 						elem = tag === "table" && !rtbody.test( elem ) ?
 							tmp.firstChild :
 
-							// String was a bare <thead> or <tfoot>
+							// string was a bare <thead> or <tfoot>
 							wrap[1] === "<table>" && !rtbody.test( elem ) ?
 								tmp :
 								0;
@@ -7846,7 +7846,7 @@ jQuery.extend({
 		converters: {
 
 			// Convert anything to text
-			"* text": String,
+			"* text": string,
 
 			// Text to html (true = no transformation)
 			"text html": true,

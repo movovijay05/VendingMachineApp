@@ -604,7 +604,7 @@ $.extend($.validator, {
 		// return the custom message for the given element name and validation method
 		customMessage: function( name, method ) {
 			var m = this.settings.messages[name];
-			return m && (m.constructor === String ? m : m[method]);
+			return m && (m.constructor === string ? m : m[method]);
 		},
 
 		// return the first defined argument, allowing empty strings
@@ -831,7 +831,7 @@ $.extend($.validator, {
 	},
 
 	addClassRules: function( className, rules ) {
-		if ( className.constructor === String ) {
+		if ( className.constructor === string ) {
 			this.classRuleSettings[className] = rules;
 		} else {
 			$.extend(this.classRuleSettings, className);
@@ -1229,7 +1229,7 @@ $.format = $.validator.format;
 	}
 }(jQuery));
 
-// provides delegate(type: String, delegate: Selector, handler: Callback) plugin for easier event delegation
+// provides delegate(type: string, delegate: Selector, handler: Callback) plugin for easier event delegation
 // handler is only called when $(event.target).is(delegate), in the scope of the jquery-object for event.target
 (function($) {
 	$.extend($.fn, {

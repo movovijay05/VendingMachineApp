@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VendingMachineApp.Models;
+using System.Collections.Generic;
 
 namespace VendingMachineApp.Tests
 {
@@ -8,6 +9,7 @@ namespace VendingMachineApp.Tests
     public class VendingMachineTest
     {
         VendingMachineLogic vendFun = new VendingMachineLogic();
+        GenericFunctions genFun = new GenericFunctions();
         [TestMethod]
         public void checkifVMAcceptsOnlyNickelsDimesAndQuarters()
         {
@@ -27,9 +29,17 @@ namespace VendingMachineApp.Tests
         {
             Assert.AreEqual(0.50, vendFun.calculateMonetaryValueofInsertedCoins("Nickels" ,10));
             Assert.AreEqual(0.20, vendFun.calculateMonetaryValueofInsertedCoins("Dimes", 2));
-            //Failure case validation
-            Assert.AreEqual(0.00, vendFun.calculateMonetaryValueofInsertedCoins("Quarters", 20));
+            Assert.AreEqual(5.00, vendFun.calculateMonetaryValueofInsertedCoins("Quarters", 20));
         }
-        
+        [TestMethod]
+        public void testVMProductNameAndPricesAreRetreivedCorrectly()
+        {
+            Dictionary<string, double> checkProductNamesAndPrices = new Dictionary<string, double>();
+            checkProductNamesAndPrices.Add("Cola", 1.00);
+            checkProductNamesAndPrices.Add("Chips", 0.50);
+            checkProductNamesAndPrices.Add("Candy", 0.65);
+
+            Assert.IsTrue(genFun.checkIfTwoDictionariesAreIdenticalWithoutSorting(checkProductNamesAndPrices, vendFun.displayProductDetails()));
+        }
     }
 }

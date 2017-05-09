@@ -9,6 +9,7 @@ namespace VendingMachineApp.Models
     public class VendingMachineLogic
     {
         CoinTypeEnum cTypEnum = new CoinTypeEnum();
+        VendingMachineProductDetailsEnum vPDetailsEnum = new VendingMachineProductDetailsEnum();
         public Boolean isValidCoinType(int coinType)
         {
             Boolean isValidCoin = false;
@@ -30,7 +31,7 @@ namespace VendingMachineApp.Models
             return isValidCoin;
         }
 
-        public Boolean isValidCoinDimensions(double coinDimension, String dimensionName, String metricSystem)
+        public Boolean isValidCoinDimensions(double coinDimension, string dimensionName, string metricSystem)
         {
             Boolean isValidCoinDimensions = false;
             switch (dimensionName)
@@ -57,7 +58,7 @@ namespace VendingMachineApp.Models
             return isValidCoinDimensions;
         }
 
-        public double calculateMonetaryValueofInsertedCoins(String coinType, int numberOfCoins)
+        public double calculateMonetaryValueofInsertedCoins(string coinType, int numberOfCoins)
         {
             double monetaryValueofInsertedCoins = 0.00;
             double actualValueofEachCoinType = 0.00;
@@ -75,6 +76,26 @@ namespace VendingMachineApp.Models
             }
             monetaryValueofInsertedCoins = numberOfCoins * actualValueofEachCoinType;
             return monetaryValueofInsertedCoins;
+        }
+
+        public Dictionary<string,double> displayProductDetails()
+        {
+
+            Dictionary<string, double> productNamesAndPrices = new Dictionary<string, double> ();
+            if (vPDetailsEnum.ProductNames.Count == vPDetailsEnum.ProductPrices.Count)
+            {
+                //var productNamesAndPrices = vPDetailsEnum.ProductNames.Zip(vPDetailsEnum.ProductPrices, (first, second) => first + " " + second);
+                for (int i = 0; i < vPDetailsEnum.ProductNames.Count; i++)
+                {
+                    productNamesAndPrices.Add(vPDetailsEnum.ProductNames[i], vPDetailsEnum.ProductPrices[i]);
+
+                }
+                    foreach (var item in productNamesAndPrices)
+                {
+                    Console.WriteLine(item);
+                }
+            }
+            return productNamesAndPrices;
         }
     }
 }
