@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using VendingMachineApp.Constants;
 
 namespace VendingMachineApp.Models
 {
     public class VendingMachineLogic
     {
+        CoinTypeEnum cTypEnum = new CoinTypeEnum();
         public Boolean isValidCoinType(int coinType)
         {
             Boolean isValidCoin = false;
@@ -26,6 +28,32 @@ namespace VendingMachineApp.Models
                     break;
             }
             return isValidCoin;
+        }
+        public Boolean isValidCoinDimensions(double coinDimension, String dimensionName, String metricSystem)
+        {
+            Boolean isValidCoinDimensions = false;
+            switch (dimensionName)
+            {
+                case "Diameter":
+                    if ((metricSystem == "inches") && (cTypEnum.acceptable_diameter.Contains(coinDimension)))
+                    {
+                        isValidCoinDimensions = true;
+                    }
+                    break;
+                case "Weight":
+                    if ((metricSystem == "grams") && (cTypEnum.acceptable_weight.Contains(coinDimension)))
+                    {
+                        isValidCoinDimensions = true;
+                    }
+                    break;
+                case "Thickness":
+                    if ((metricSystem == "mm") && (cTypEnum.acceptable_thickness.Contains(coinDimension)))
+                    {
+                        isValidCoinDimensions = true;
+                    }
+                    break;
+            }           
+            return isValidCoinDimensions;
         }
     }
 }
