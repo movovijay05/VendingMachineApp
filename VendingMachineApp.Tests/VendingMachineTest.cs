@@ -11,7 +11,9 @@ namespace VendingMachineApp.Tests
         public void acceptOnlyNickelsDimesAndQuarters()
         {
             VendingMachineLogic vendFun = new VendingMachineLogic();
-            Assert.IsTrue(vendFun.isValidCoinType(1));
+            Assert.IsTrue(vendFun.isValidCoinType(2));
+            Assert.IsTrue(vendFun.isValidCoinType(3));
+            Assert.IsTrue(vendFun.isValidCoinType(4));
         }
     }
 }
