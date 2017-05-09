@@ -27,9 +27,9 @@ namespace VendingMachineApp.Tests
         [TestMethod]
         public void checkifVMDisplayCorrectValueOfInsertedCoins()
         {
-            Assert.AreEqual(0.50, vendFun.calculateMonetaryValueofInsertedCoins("Nickels" ,10));
-            Assert.AreEqual(0.20, vendFun.calculateMonetaryValueofInsertedCoins("Dimes", 2));
-            Assert.AreEqual(5.00, vendFun.calculateMonetaryValueofInsertedCoins("Quarters", 20));
+            Assert.AreEqual(0.50, vendFun.calculateMonetaryValueofInsertedCoins("NICKELS" ,10));
+            Assert.AreEqual(0.20, vendFun.calculateMonetaryValueofInsertedCoins("DIMES", 2));
+            Assert.AreEqual(5.00, vendFun.calculateMonetaryValueofInsertedCoins("QUARTERS", 20));
         }
         [TestMethod]
         public void testVMProductNameAndPricesAreRetreivedCorrectly()
@@ -49,6 +49,15 @@ namespace VendingMachineApp.Tests
             checkTotalPriceOfUserRequestedItems.Add("Chips", 1); // 0.50 * 1 = 0.50
             checkTotalPriceOfUserRequestedItems.Add("Candy", 5); // 0.65 * 5 = 3.25
             Assert.AreEqual(6.75, vendFun.calculateTotalPriceOfASingleUserTransaction(checkTotalPriceOfUserRequestedItems));
+        }
+        [TestMethod]
+        public void checkTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange()
+        {
+            Dictionary<string, int> checkTheNumberOfNickelsDimesAndQuartersRequired = new Dictionary<string, int>();
+            checkTheNumberOfNickelsDimesAndQuartersRequired.Add("QUARTERS", 1);   
+            checkTheNumberOfNickelsDimesAndQuartersRequired.Add("NICKELS", 1); 
+            checkTheNumberOfNickelsDimesAndQuartersRequired.Add("DIMES", 1); 
+            Assert.AreEqual(checkTheNumberOfNickelsDimesAndQuartersRequired, vendFun.calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(0.40));
         }
     }
 }

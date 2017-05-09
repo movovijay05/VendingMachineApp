@@ -8,7 +8,6 @@ namespace VendingMachineApp.Models
 {
     public class VendingMachineLogic
     {
-        CoinTypeEnum cTypEnum = new CoinTypeEnum();
         VendingMachineProductDetailsEnum vPDetailsEnum = new VendingMachineProductDetailsEnum();
         Dictionary<string, double> productNamesAndPrices = new Dictionary<string, double>();
         public Boolean isValidCoinType(int coinType)
@@ -17,15 +16,15 @@ namespace VendingMachineApp.Models
             switch (coinType)
             {
                 case 2:
-                    Console.WriteLine("NICKELS");
+                    Console.WriteLine(CoinTypeEnum.NickelsName);
                     isValidCoin = true;
                     break;
                 case 3:
-                    Console.WriteLine("DIMES");
+                    Console.WriteLine(CoinTypeEnum.DimesName);
                     isValidCoin = true;
                     break;
                 case 4:
-                    Console.WriteLine("QUATERS");
+                    Console.WriteLine(CoinTypeEnum.QuartersName);
                     isValidCoin = true;
                     break;
             }
@@ -38,24 +37,24 @@ namespace VendingMachineApp.Models
             switch (dimensionName)
             {
                 case "Diameter":
-                    if ((metricSystem == cTypEnum.DiameterMetric) && (cTypEnum.acceptable_diameter.Contains(coinDimension)))
+                    if ((metricSystem == CoinTypeEnum.DiameterMetric) && (CoinTypeEnum.acceptable_diameter.Contains(coinDimension)))
                     {
                         isValidCoinDimensions = true;
                     }
                     break;
                 case "Weight":
-                    if ((metricSystem == cTypEnum.WeightMetric) && (cTypEnum.acceptable_weight.Contains(coinDimension)))
+                    if ((metricSystem == CoinTypeEnum.WeightMetric) && (CoinTypeEnum.acceptable_weight.Contains(coinDimension)))
                     {
                         isValidCoinDimensions = true;
                     }
                     break;
                 case "Thickness":
-                    if ((metricSystem == cTypEnum.ThicknessMetric) && (cTypEnum.acceptable_thickness.Contains(coinDimension)))
+                    if ((metricSystem == CoinTypeEnum.ThicknessMetric) && (CoinTypeEnum.acceptable_thickness.Contains(coinDimension)))
                     {
                         isValidCoinDimensions = true;
                     }
                     break;
-            }           
+            }
             return isValidCoinDimensions;
         }
 
@@ -65,21 +64,21 @@ namespace VendingMachineApp.Models
             double actualValueofEachCoinType = 0.00;
             switch (coinType)
             {
-                case "Quarters":
-                    actualValueofEachCoinType = cTypEnum.QuartersValue;
+                case CoinTypeEnum.QuartersName:
+                    actualValueofEachCoinType = CoinTypeEnum.QuartersValue;
                     break;
-                case "Nickels":
-                    actualValueofEachCoinType = cTypEnum.NickelsValue;
+                case CoinTypeEnum.NickelsName:
+                    actualValueofEachCoinType = CoinTypeEnum.NickelsValue;
                     break;
-                case "Dimes":
-                    actualValueofEachCoinType = cTypEnum.DimesValue;
+                case CoinTypeEnum.DimesName:
+                    actualValueofEachCoinType = CoinTypeEnum.DimesValue;
                     break;
             }
             monetaryValueofInsertedCoins = numberOfCoins * actualValueofEachCoinType;
             return monetaryValueofInsertedCoins;
         }
 
-        public Dictionary<string,double> loadProductDetails()
+        public Dictionary<string, double> loadProductDetails()
         {
             if (vPDetailsEnum.ProductNames.Count == vPDetailsEnum.ProductPrices.Count)
             {
@@ -95,16 +94,44 @@ namespace VendingMachineApp.Models
             return productNamesAndPrices;
         }
 
-        public double calculateTotalPriceOfASingleUserTransaction(Dictionary<string,int> itemizedInputList)
+        public double calculateTotalPriceOfASingleUserTransaction(Dictionary<string, int> itemizedInputList)
         {
             loadProductDetails();
             double totalPriceOfTransaction = 0.00;
-            for (int i =0; i< itemizedInputList.Count; i++) {
+            for (int i = 0; i < itemizedInputList.Count; i++)
+            {
                 double itemPrice = productNamesAndPrices[itemizedInputList.ElementAt(i).Key];
                 double itemQuantity = itemizedInputList.ElementAt(i).Value;
                 totalPriceOfTransaction += (itemQuantity * itemPrice);
             }
             return totalPriceOfTransaction;
+        }
+
+        public Dictionary<string, double> calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(double changeToBeGivenToTheUser)
+        {
+            Dictionary<string, double> numberOfNickelsDimesAndQuartersRequiredToMakeChange = new Dictionary<string, double>();
+            
+            if (changeToBeGivenToTheUser > CoinTypeEnum.QuartersValue)
+            {
+                int numberofQuartersRequiredToMakeChange = Convert.ToInt32(changeToBeGivenToTheUser / CoinTypeEnum.QuartersValue);
+                numberOfNickelsDimesAndQuartersRequiredToMakeChange.Add(CoinTypeEnum.QuartersName, numberofQuartersRequiredToMakeChange);
+                changeToBeGivenToTheUser = (changeToBeGivenToTheUser % CoinTypeEnum.QuartersValue);
+            }
+            else if(changeToBeGivenToTheUser > CoinTypeEnum.DimesValue){
+                int numberofDimesRequiredToMakeChange = Convert.ToInt32(changeToBeGivenToTheUser / CoinTypeEnum.QuartersValue);
+                numberOfNickelsDimesAndQuartersRequiredToMakeChange.Add(CoinTypeEnum.DimesName, numberofDimesRequiredToMakeChange);
+                changeToBeGivenToTheUser = (changeToBeGivenToTheUser % CoinTypeEnum.QuartersValue);
+            }
+            else
+            {
+                int numberofNickelssRequiredToMakeChange = Convert.ToInt32(changeToBeGivenToTheUser / CoinTypeEnum.QuartersValue);
+                numberOfNickelsDimesAndQuartersRequiredToMakeChange.Add(CoinTypeEnum.NickelsName, numberofNickelssRequiredToMakeChange);
+            }
+            foreach (var item in numberOfNickelsDimesAndQuartersRequiredToMakeChange)
+            {
+                Console.WriteLine(item);
+            }
+            return numberOfNickelsDimesAndQuartersRequiredToMakeChange;
         }
     }
 }

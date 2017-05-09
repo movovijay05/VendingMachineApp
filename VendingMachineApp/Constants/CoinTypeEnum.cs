@@ -23,18 +23,23 @@ namespace VendingMachineApp.Constants
         static double QuartersThickness = 1.75;
 
         //Dimension Metrics
-        public string WeightMetric = "grams";
-        public string DiameterMetric = "inches";
-        public string ThicknessMetric = "mm";
+        public const string WeightMetric = "grams";
+        public const string DiameterMetric = "inches";
+        public const string ThicknessMetric = "mm";
+
+        //Coin Name
+        public const string NickelsName = "NICKELS";
+        public const string DimesName = "DIMES";
+        public const string QuartersName = "QUARTERS";
 
         //Monetary Value
-        public double NickelsValue = 0.05;
-        public double DimesValue = 0.10;
-        public double QuartersValue = 0.25;
+        public const double NickelsValue = 0.05;
+        public const double DimesValue = 0.10;
+        public const double QuartersValue = 0.25;
 
         //Listing weight,diameter and thickness for Nickels, Dimes and Quarters
-        public List<double> acceptable_weight = new List<double> { NickelsWeight, DimesWeight, QuartersWeight };  //in grams
-        public List<double> acceptable_diameter = new List<double> { NickelsDiameter, DimesDiameter, QuartersDiameter }; // in inches
-        public List<double> acceptable_thickness = new List<double> { NickelsThickness, DimesThickness, QuartersThickness };  // in mm
+        public static readonly List<double> acceptable_weight = new List<double> { NickelsWeight, DimesWeight, QuartersWeight };  //in grams
+        public static readonly List<double> acceptable_diameter = new List<double> { NickelsDiameter, DimesDiameter, QuartersDiameter }; // in inches
+        public static readonly List<double> acceptable_thickness = new List<double> { NickelsThickness, DimesThickness, QuartersThickness };  // in mm
     }
 }
