@@ -10,6 +10,7 @@ namespace VendingMachineApp.Models
     {
         CoinTypeEnum cTypEnum = new CoinTypeEnum();
         VendingMachineProductDetailsEnum vPDetailsEnum = new VendingMachineProductDetailsEnum();
+        Dictionary<string, double> productNamesAndPrices = new Dictionary<string, double>();
         public Boolean isValidCoinType(int coinType)
         {
             Boolean isValidCoin = false;
@@ -78,24 +79,32 @@ namespace VendingMachineApp.Models
             return monetaryValueofInsertedCoins;
         }
 
-        public Dictionary<string,double> displayProductDetails()
+        public Dictionary<string,double> loadProductDetails()
         {
-
-            Dictionary<string, double> productNamesAndPrices = new Dictionary<string, double> ();
             if (vPDetailsEnum.ProductNames.Count == vPDetailsEnum.ProductPrices.Count)
             {
-                //var productNamesAndPrices = vPDetailsEnum.ProductNames.Zip(vPDetailsEnum.ProductPrices, (first, second) => first + " " + second);
                 for (int i = 0; i < vPDetailsEnum.ProductNames.Count; i++)
                 {
                     productNamesAndPrices.Add(vPDetailsEnum.ProductNames[i], vPDetailsEnum.ProductPrices[i]);
-
                 }
-                    foreach (var item in productNamesAndPrices)
-                {
-                    Console.WriteLine(item);
-                }
+                //foreach (var item in productNamesAndPrices)
+                //{
+                //    Console.WriteLine(item);
+                //}
             }
             return productNamesAndPrices;
+        }
+
+        public double calculateTotalPriceOfASingleUserTransaction(Dictionary<string,int> itemizedInputList)
+        {
+            loadProductDetails();
+            double totalPriceOfTransaction = 0.00;
+            for (int i =0; i< itemizedInputList.Count; i++) {
+                double itemPrice = productNamesAndPrices[itemizedInputList.ElementAt(i).Key];
+                double itemQuantity = itemizedInputList.ElementAt(i).Value;
+                totalPriceOfTransaction += (itemQuantity * itemPrice);
+            }
+            return totalPriceOfTransaction;
         }
     }
 }

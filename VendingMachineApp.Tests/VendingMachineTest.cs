@@ -39,7 +39,16 @@ namespace VendingMachineApp.Tests
             checkProductNamesAndPrices.Add("Chips", 0.50);
             checkProductNamesAndPrices.Add("Candy", 0.65);
 
-            Assert.IsTrue(genFun.checkIfTwoDictionariesAreIdenticalWithoutSorting(checkProductNamesAndPrices, vendFun.displayProductDetails()));
+            Assert.IsTrue(genFun.checkIfTwoDictionariesAreIdenticalWithoutSorting(checkProductNamesAndPrices, vendFun.loadProductDetails()));
+        }
+        [TestMethod]
+        public void checkTotalPriceOfASingleUserTransaction()
+        {
+            Dictionary<string, int> checkTotalPriceOfUserRequestedItems = new Dictionary<string, int>();
+            checkTotalPriceOfUserRequestedItems.Add("Cola", 3);   // 1 * 3 = 3
+            checkTotalPriceOfUserRequestedItems.Add("Chips", 1); // 0.50 * 1 = 0.50
+            checkTotalPriceOfUserRequestedItems.Add("Candy", 5); // 0.65 * 5 = 3.25
+            Assert.AreEqual(6.75, vendFun.calculateTotalPriceOfASingleUserTransaction(checkTotalPriceOfUserRequestedItems));
         }
     }
 }
