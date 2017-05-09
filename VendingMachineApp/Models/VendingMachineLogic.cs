@@ -35,19 +35,19 @@ namespace VendingMachineApp.Models
             switch (dimensionName)
             {
                 case "Diameter":
-                    if ((metricSystem == "inches") && (cTypEnum.acceptable_diameter.Contains(coinDimension)))
+                    if ((metricSystem == cTypEnum.DiameterMetric) && (cTypEnum.acceptable_diameter.Contains(coinDimension)))
                     {
                         isValidCoinDimensions = true;
                     }
                     break;
                 case "Weight":
-                    if ((metricSystem == "grams") && (cTypEnum.acceptable_weight.Contains(coinDimension)))
+                    if ((metricSystem == cTypEnum.WeightMetric) && (cTypEnum.acceptable_weight.Contains(coinDimension)))
                     {
                         isValidCoinDimensions = true;
                     }
                     break;
                 case "Thickness":
-                    if ((metricSystem == "mm") && (cTypEnum.acceptable_thickness.Contains(coinDimension)))
+                    if ((metricSystem == cTypEnum.ThicknessMetric) && (cTypEnum.acceptable_thickness.Contains(coinDimension)))
                     {
                         isValidCoinDimensions = true;
                     }

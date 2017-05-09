@@ -19,6 +19,8 @@ namespace VendingMachineApp.Tests
         public void acceptOnlyCoinsWithValidDimensions()
         {    
             Assert.IsTrue(vendFun.isValidCoinDimensions(5.00,"Weight","grams"));
+            Assert.IsTrue(vendFun.isValidCoinDimensions(1.95,"Thickness", "mm"));
+            Assert.IsTrue(vendFun.isValidCoinDimensions(0.71,"Diameter", "inches"));
         }
         
     }
