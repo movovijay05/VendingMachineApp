@@ -56,16 +56,15 @@ namespace VendingMachineApp.Tests
         {
             Dictionary<string, int> checkTheNumberOfNickelsDimesAndQuartersRequired = new Dictionary<string, int>();
             // order of the below items is important
-            checkTheNumberOfNickelsDimesAndQuartersRequired.Add("QUARTERS", 0);
+            checkTheNumberOfNickelsDimesAndQuartersRequired.Add("QUARTERS", 10);
             checkTheNumberOfNickelsDimesAndQuartersRequired.Add("DIMES", 1);
             checkTheNumberOfNickelsDimesAndQuartersRequired.Add("NICKELS", 1);
-
-            Trace.WriteLine("-------------------Test Value --------------------");
-            foreach (var item in checkTheNumberOfNickelsDimesAndQuartersRequired)
-            {
-                Trace.WriteLine(item);
-            }
-            Assert.IsTrue(genFun.checkIfTwoStringIntDictionariesAreIdenticalWithoutSorting(checkTheNumberOfNickelsDimesAndQuartersRequired, vendFun.calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(0.15)));
+            //Trace.WriteLine("-------------------Test Value --------------------");
+            //foreach (var item in checkTheNumberOfNickelsDimesAndQuartersRequired)
+            //{
+            //    Trace.WriteLine(item);
+            //}
+            Assert.IsTrue(genFun.checkIfTwoStringIntDictionariesAreIdenticalWithoutSorting(checkTheNumberOfNickelsDimesAndQuartersRequired, vendFun.calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(2.65)));
         }
     }
 }
