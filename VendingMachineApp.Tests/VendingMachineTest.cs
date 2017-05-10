@@ -12,21 +12,21 @@ namespace VendingMachineApp.Tests
         VendingMachineLogic vendFun = new VendingMachineLogic();
         GenericFunctions genFun = new GenericFunctions();
         [TestMethod]
-        public void checkifVMAcceptsOnlyNickelsDimesAndQuarters()
+        public void testifVMAcceptsOnlyNickelsDimesAndQuarters()
         {
             Assert.IsTrue(vendFun.isValidCoinType(2));
             Assert.IsTrue(vendFun.isValidCoinType(3));
             Assert.IsTrue(vendFun.isValidCoinType(4));
         }
         [TestMethod]
-        public void checkifVMAcceptsOnlyCoinsWithValidDimensions()
+        public void testifVMAcceptsOnlyCoinsWithValidDimensions()
         {    
             Assert.IsTrue(vendFun.isValidCoinDimensions(5.00,"Weight","grams"));
             Assert.IsTrue(vendFun.isValidCoinDimensions(1.95,"Thickness", "mm"));
             Assert.IsTrue(vendFun.isValidCoinDimensions(0.71,"Diameter", "inches"));
         }
         [TestMethod]
-        public void checkifVMDisplayCorrectValueOfInsertedCoins()
+        public void testifVMDisplayCorrectValueOfInsertedCoins()
         {
             Assert.AreEqual(0.50, vendFun.calculateMonetaryValueofInsertedCoins("NICKELS" ,10));
             Assert.AreEqual(0.20, vendFun.calculateMonetaryValueofInsertedCoins("DIMES", 2));
@@ -43,7 +43,7 @@ namespace VendingMachineApp.Tests
             Assert.IsTrue(genFun.checkIfTwoStringDoubleDictionariesAreIdenticalWithoutSorting(checkProductNamesAndPrices, vendFun.loadProductDetails()));
         }
         [TestMethod]
-        public void checkTotalPriceOfASingleUserTransaction()
+        public void testTotalPriceOfASingleUserTransaction()
         {
             Dictionary<string, int> checkTotalPriceOfUserRequestedItems = new Dictionary<string, int>();
             checkTotalPriceOfUserRequestedItems.Add("Cola", 3);   // 1 * 3 = 3
@@ -52,19 +52,20 @@ namespace VendingMachineApp.Tests
             Assert.AreEqual(6.75, vendFun.calculateTotalPriceOfASingleUserTransaction(checkTotalPriceOfUserRequestedItems));
         }
         [TestMethod]
-        public void checkTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange()
+        public void testTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange()
         {
             Dictionary<string, int> checkTheNumberOfNickelsDimesAndQuartersRequired = new Dictionary<string, int>();
             // order of the below items is important
             checkTheNumberOfNickelsDimesAndQuartersRequired.Add("QUARTERS", 10);
             checkTheNumberOfNickelsDimesAndQuartersRequired.Add("DIMES", 1);
             checkTheNumberOfNickelsDimesAndQuartersRequired.Add("NICKELS", 1);
-            //Trace.WriteLine("-------------------Test Value --------------------");
-            //foreach (var item in checkTheNumberOfNickelsDimesAndQuartersRequired)
-            //{
-            //    Trace.WriteLine(item);
-            //}
             Assert.IsTrue(genFun.checkIfTwoStringIntDictionariesAreIdenticalWithoutSorting(checkTheNumberOfNickelsDimesAndQuartersRequired, vendFun.calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(2.65)));
+        }
+
+        [TestMethod]
+        public void testIfChangeNeedsToBeProvidedByVMOrUserNeedsToInputMoreCoins()
+        {
+            Assert.AreEqual("1.25", vendFun.checkIfChangeNeedsToBeProvidedByVMOrUserNeedsToInputMoreCoins(8.75,7.50));
         }
     }
 }

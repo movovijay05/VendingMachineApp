@@ -7,7 +7,12 @@ namespace VendingMachineApp.Models
 {
     public class GenericFunctions
     {
-      public bool checkIfTwoStringDoubleDictionariesAreIdenticalWithoutSorting(
+        public double calculateBalance(double number1, double number2)
+        {
+            double balance = number2 - number1;
+            return balance;
+        }
+        public bool checkIfTwoStringDoubleDictionariesAreIdenticalWithoutSorting(
       Dictionary<string, double> oldDict,
       Dictionary<string, double> newDict)
         {

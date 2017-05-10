@@ -10,6 +10,8 @@ namespace VendingMachineApp.Models
     public class VendingMachineLogic
     {
         VendingMachineProductDetailsEnum vPDetailsEnum = new VendingMachineProductDetailsEnum();
+        GenericFunctions genFun = new GenericFunctions();
+
         Dictionary<string, double> productNamesAndPrices = new Dictionary<string, double>();
         Dictionary<string, int> numberOfNickelsDimesAndQuartersRequiredToMakeChange;
         public Boolean isValidCoinType(int coinType)
@@ -108,7 +110,7 @@ namespace VendingMachineApp.Models
             }
             return totalPriceOfTransaction;
         }
-
+ 
         public double numberOfCoinsRequiredToMakeChange(double changeToBeGivenToTheUser, double coinsValue, String coinsName)
         {
             int numberOfCoinsRequiredToMakeChange = 0;
@@ -134,6 +136,20 @@ namespace VendingMachineApp.Models
             //    Trace.WriteLine(item);
             //}
             return numberOfNickelsDimesAndQuartersRequiredToMakeChange;
+        }
+
+        public string checkIfChangeNeedsToBeProvidedByVMOrUserNeedsToInputMoreCoins(double totalValueOfCoinsInsertedByTheUser, double totalPriceOfTransaction)
+        {
+            String messageToBeDisplayed = "";
+            double balanceToBeDisplayed = genFun.calculateBalance(totalPriceOfTransaction, totalValueOfCoinsInsertedByTheUser);
+            if (totalPriceOfTransaction > totalValueOfCoinsInsertedByTheUser){
+                messageToBeDisplayed = "Please pay the remanining balance of $" + balanceToBeDisplayed.ToString();
+            }else if (totalPriceOfTransaction < totalValueOfCoinsInsertedByTheUser)
+            {
+                messageToBeDisplayed = "Thanks for paying!!! Please collect the remanining balance of $" + balanceToBeDisplayed.ToString();
+            }
+            //Trace.WriteLine(balanceToBeDisplayed.ToString());
+            return balanceToBeDisplayed.ToString();
         }
     }
 }
