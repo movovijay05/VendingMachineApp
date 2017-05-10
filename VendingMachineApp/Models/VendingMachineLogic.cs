@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using VendingMachineApp.Constants;
@@ -107,30 +108,25 @@ namespace VendingMachineApp.Models
             return totalPriceOfTransaction;
         }
 
-        public Dictionary<string, double> calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(double changeToBeGivenToTheUser)
+        public Dictionary<string, int> calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(double changeToBeGivenToTheUser)
         {
-            Dictionary<string, double> numberOfNickelsDimesAndQuartersRequiredToMakeChange = new Dictionary<string, double>();
-            
-            if (changeToBeGivenToTheUser > CoinTypeEnum.QuartersValue)
-            {
-                int numberofQuartersRequiredToMakeChange = Convert.ToInt32(changeToBeGivenToTheUser / CoinTypeEnum.QuartersValue);
-                numberOfNickelsDimesAndQuartersRequiredToMakeChange.Add(CoinTypeEnum.QuartersName, numberofQuartersRequiredToMakeChange);
-                changeToBeGivenToTheUser = (changeToBeGivenToTheUser % CoinTypeEnum.QuartersValue);
-            }
-            else if(changeToBeGivenToTheUser > CoinTypeEnum.DimesValue){
-                int numberofDimesRequiredToMakeChange = Convert.ToInt32(changeToBeGivenToTheUser / CoinTypeEnum.QuartersValue);
-                numberOfNickelsDimesAndQuartersRequiredToMakeChange.Add(CoinTypeEnum.DimesName, numberofDimesRequiredToMakeChange);
-                changeToBeGivenToTheUser = (changeToBeGivenToTheUser % CoinTypeEnum.QuartersValue);
-            }
-            else
-            {
-                int numberofNickelssRequiredToMakeChange = Convert.ToInt32(changeToBeGivenToTheUser / CoinTypeEnum.QuartersValue);
-                numberOfNickelsDimesAndQuartersRequiredToMakeChange.Add(CoinTypeEnum.NickelsName, numberofNickelssRequiredToMakeChange);
-            }
-            foreach (var item in numberOfNickelsDimesAndQuartersRequiredToMakeChange)
-            {
-                Console.WriteLine(item);
-            }
+            Dictionary<string, int> numberOfNickelsDimesAndQuartersRequiredToMakeChange = new Dictionary<string, int>();
+
+            int numberOfQuartersRequiredToMakeChange = (int)Math.Floor(changeToBeGivenToTheUser / CoinTypeEnum.QuartersValue);
+            numberOfNickelsDimesAndQuartersRequiredToMakeChange.Add(CoinTypeEnum.QuartersName, numberOfQuartersRequiredToMakeChange);
+            changeToBeGivenToTheUser = (changeToBeGivenToTheUser - (numberOfQuartersRequiredToMakeChange * CoinTypeEnum.QuartersValue));
+
+            int numberOfDimesRequiredToMakeChange = (int)Math.Floor(changeToBeGivenToTheUser / CoinTypeEnum.DimesValue);
+            numberOfNickelsDimesAndQuartersRequiredToMakeChange.Add(CoinTypeEnum.DimesName, numberOfDimesRequiredToMakeChange);
+            changeToBeGivenToTheUser = (changeToBeGivenToTheUser - (numberOfDimesRequiredToMakeChange * CoinTypeEnum.DimesValue));
+
+            int numberofNickelsRequiredToMakeChange = Convert.ToInt32(changeToBeGivenToTheUser / CoinTypeEnum.NickelsValue);
+            numberOfNickelsDimesAndQuartersRequiredToMakeChange.Add(CoinTypeEnum.NickelsName, numberofNickelsRequiredToMakeChange);
+            //Trace.WriteLine("-------------------Output Value --------------------");
+            //foreach (var item in numberOfNickelsDimesAndQuartersRequiredToMakeChange)
+            //{
+            //    Trace.WriteLine(item);
+            //}
             return numberOfNickelsDimesAndQuartersRequiredToMakeChange;
         }
     }

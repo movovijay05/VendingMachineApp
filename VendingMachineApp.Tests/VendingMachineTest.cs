@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VendingMachineApp.Models;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace VendingMachineApp.Tests
 {
@@ -39,7 +40,7 @@ namespace VendingMachineApp.Tests
             checkProductNamesAndPrices.Add("Chips", 0.50);
             checkProductNamesAndPrices.Add("Candy", 0.65);
 
-            Assert.IsTrue(genFun.checkIfTwoDictionariesAreIdenticalWithoutSorting(checkProductNamesAndPrices, vendFun.loadProductDetails()));
+            Assert.IsTrue(genFun.checkIfTwoStringDoubleDictionariesAreIdenticalWithoutSorting(checkProductNamesAndPrices, vendFun.loadProductDetails()));
         }
         [TestMethod]
         public void checkTotalPriceOfASingleUserTransaction()
@@ -54,10 +55,17 @@ namespace VendingMachineApp.Tests
         public void checkTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange()
         {
             Dictionary<string, int> checkTheNumberOfNickelsDimesAndQuartersRequired = new Dictionary<string, int>();
-            checkTheNumberOfNickelsDimesAndQuartersRequired.Add("QUARTERS", 1);   
-            checkTheNumberOfNickelsDimesAndQuartersRequired.Add("NICKELS", 1); 
-            checkTheNumberOfNickelsDimesAndQuartersRequired.Add("DIMES", 1); 
-            Assert.AreEqual(checkTheNumberOfNickelsDimesAndQuartersRequired, vendFun.calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(0.40));
+            // order of the below items is important
+            checkTheNumberOfNickelsDimesAndQuartersRequired.Add("QUARTERS", 1);
+            checkTheNumberOfNickelsDimesAndQuartersRequired.Add("DIMES", 1);
+            checkTheNumberOfNickelsDimesAndQuartersRequired.Add("NICKELS", 1);
+            
+            //Trace.WriteLine("-------------------Test Value --------------------");
+            //foreach (var item in checkTheNumberOfNickelsDimesAndQuartersRequired)
+            //{
+            //    Trace.WriteLine(item);
+            //}
+            Assert.IsTrue(genFun.checkIfTwoStringIntDictionariesAreIdenticalWithoutSorting(checkTheNumberOfNickelsDimesAndQuartersRequired, vendFun.calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(0.40)));
         }
     }
 }
