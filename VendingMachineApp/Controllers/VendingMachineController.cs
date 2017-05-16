@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using VendingMachineApp.Models;
 
 namespace VendingMachineApp.Controllers
 {
@@ -11,79 +12,25 @@ namespace VendingMachineApp.Controllers
         // GET: VendingMachine
         public ActionResult VendingMachineDisplayView()
         {
+            String DisplayMessage = "Welcome!!! Please select the item you want to purchase";
+            DisplayMessage += getCoinBalance();
+            ViewBag.DisplayMessage = DisplayMessage;
             return View("VendingMachineDisplayView");
         }
-
-        // GET: VendingMachine/Details/5
-        public ActionResult Details(int id)
+        // GET: VendingMachineFormData 
+        public ActionResult passVMValues()
         {
-            return View();
+            return View("VendingMachineDisplayView");
         }
-
-        // GET: VendingMachine/Create
-        public ActionResult Create()
+        public String getCoinBalance()
         {
-            return View();
+            String printCoinBalance = "";
+            CashInVMBAL cVM = new CashInVMBAL();
+            Coin c = cVM.getCashInVM();
+            GenericFunctions genFun = new GenericFunctions();
+            printCoinBalance = genFun.printAStringIntDictionary(c.CoinNameAndQuantityRemainingInVM);
+            return printCoinBalance;
         }
-
-        // POST: VendingMachine/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: VendingMachine/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: VendingMachine/Edit/5
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: VendingMachine/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: VendingMachine/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
+        
     }
 }

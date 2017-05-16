@@ -117,7 +117,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\CashInVMBAL.cs" />
+    <Compile Include="Models\Coin.cs" />
     <Compile Include="Models\GenericFunctions.cs" />
+    <Compile Include="Models\VendingMachineCashEnum.cs" />
     <Compile Include="Models\VendingMachineLogic.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

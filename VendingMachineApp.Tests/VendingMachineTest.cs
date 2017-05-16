@@ -61,7 +61,6 @@ namespace VendingMachineApp.Tests
             checkTheNumberOfNickelsDimesAndQuartersRequired.Add("NICKELS", 1);
             Assert.IsTrue(genFun.checkIfTwoStringIntDictionariesAreIdenticalWithoutSorting(checkTheNumberOfNickelsDimesAndQuartersRequired, vendFun.calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(2.65)));
         }
-
         [TestMethod]
         public void testIfChangeNeedsToBeProvidedByVMOrUserNeedsToInputMoreCoins()
         {

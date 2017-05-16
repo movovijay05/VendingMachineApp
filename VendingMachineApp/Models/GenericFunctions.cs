@@ -21,9 +21,9 @@ namespace VendingMachineApp.Models
 
             // iterate through all the keys in oldDict and
             // verify whether the key exists in the newDict
-            for (int key = 0; key < oldDict.Count; key++)
+            foreach (int i in Enumerable.Range(1, oldDict.Count))
             {
-                if (newDict.ElementAt(key).Equals(oldDict.ElementAt(key)))
+                if (newDict.ElementAt(i).Equals(oldDict.ElementAt(i)))
                 {
                     // iterate through each value for the current key in oldDict and 
                     // verify whether or not it exists for the current key in the newDict
@@ -41,9 +41,9 @@ namespace VendingMachineApp.Models
 
             // iterate through all the keys in oldDict and
             // verify whether the key exists in the newDict
-            for (int key = 0; key < oldDict.Count; key++)
+            foreach (int i in Enumerable.Range(1, oldDict.Count))
             {
-                if (newDict.ElementAt(key).Equals(oldDict.ElementAt(key)))
+                if (newDict.ElementAt(i).Equals(oldDict.ElementAt(i)))
                 {
                     // iterate through each value for the current key in oldDict and 
                     // verify whether or not it exists for the current key in the newDict
@@ -51,6 +51,16 @@ namespace VendingMachineApp.Models
                 else { return false; }
             }
             return true;
+        }
+
+        public String printAStringIntDictionary(Dictionary<string, int> printableStringIntDcitionary)
+        {
+            String dictionaryStringOutput = "";
+            foreach (var item in printableStringIntDcitionary)
+            {
+                dictionaryStringOutput += item;
+            }
+            return dictionaryStringOutput;
         }
     }
 }
