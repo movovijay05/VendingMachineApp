@@ -16,18 +16,41 @@ namespace VendingMachineApp.Controllers
         // GET: VendingMachine
         public ActionResult VendingMachineDisplayView()
         {
-            String DisplayMessage = "Welcome!!!" + "\n" + "Please select the item you want to purchase";
-            DisplayMessage += "\n" + getCoinBalance();
-            ViewBag.DisplayMessage = DisplayMessage;
+            ViewBag.DisplayMessage = displayWelcomeMesssage();
+            resetCounts();
             return View("VendingMachineDisplayView");
         }
         // GET: VendingMachineFormData 
         public ActionResult passVMValues()
         {
-           ViewBag.DisplayMessage = updateVendingMachineDisplayMessage();
+            ViewBag.QuartersCount = Convert.ToInt32(Request.Form["txtNoOfQuarters"] ?? "0").ToString();
+            ViewBag.NickelsCount = Convert.ToInt32(Request.Form["txtNoOfNickels"] ?? "0").ToString();
+            ViewBag.DimesCount = Convert.ToInt32(Request.Form["txtNoOfDimes"] ?? "0").ToString();
+
+            ViewBag.Product1Count = Convert.ToInt32(Request.Form["txtColaQnty"] ?? "0").ToString();
+            ViewBag.Product2Count = Convert.ToInt32(Request.Form["txtChipsQnty"] ?? "0").ToString();
+            ViewBag.Product3Count = Convert.ToInt32(Request.Form["txtCandyQnty"] ?? "0").ToString();
+
+            ViewBag.DisplayMessage = updateVendingMachineDisplayMessage();
            return View("VendingMachineDisplayView");
         }
 
+        public String displayWelcomeMesssage()
+        {
+            String displayMessage = "Welcome!!!" + "\n" + "Please select the item you want to purchase";
+            displayMessage += "\n" + getCoinBalance();
+            return displayMessage;
+        }
+        public void resetCounts()
+        {
+            ViewBag.QuartersCount = "0";
+            ViewBag.NickelsCount = "0";
+            ViewBag.DimesCount = "0";
+
+            ViewBag.Product1Count = "0";
+            ViewBag.Product2Count = "0";
+            ViewBag.Product3Count = "0";
+        }
         public String updateVendingMachineDisplayMessage()
         {
             String displayMessage = "";
@@ -46,12 +69,29 @@ namespace VendingMachineApp.Controllers
             dictTotalUserDepositedCoins.Add(CoinTypeEnum.QuartersName, Convert.ToInt32(Request.Form["txtNoOfQuarters"] ?? "0"));
             genFun.updateADictionaryUsingAnotherSimilarDictionary(vCEnum.totalRemainingCashInVM, dictTotalUserDepositedCoins, "ADD");
             double totalCashDepositedByUserForCurrentTransaction = vendFun.calculateTotalPriceOfASingleUserTransaction(dictTotalUserDepositedCoins, 2);
-            displayMessage += "Cash Paid: $" + totalCashDepositedByUserForCurrentTransaction + "\n";
-            displayMessage += vendFun.checkIfChangeNeedsToBeProvidedByVMOrUserNeedsToInputMoreCoins(totalCashDepositedByUserForCurrentTransaction, totalPriceOfASingleUserTransaction);
-
-            if (Convert.ToInt32(Request.Form["txtNoOfPennies"]) > 0)
+            if ((totalPriceOfASingleUserTransaction == 0) && (totalCashDepositedByUserForCurrentTransaction == 0))
             {
-                displayMessage += "\nInvalid Coins (Pennies) detected. Returning all Invalid Coins";
+                VendingMachineDisplayView();
+                displayMessage = displayWelcomeMesssage();
+            }
+            else if (totalPriceOfASingleUserTransaction == 0)
+            {
+                displayMessage = "Please select product quantity!!!";
+            }
+            else if (totalCashDepositedByUserForCurrentTransaction == 0)
+            {
+                displayMessage = "Please input coins!!!";
+            }
+            else
+            {
+                if  (totalCashDepositedByUserForCurrentTransaction >= totalPriceOfASingleUserTransaction) {resetCounts(); }    
+                displayMessage += "Cash Paid: $" + totalCashDepositedByUserForCurrentTransaction + "\n";
+                displayMessage += vendFun.checkIfChangeNeedsToBeProvidedByVMOrUserNeedsToInputMoreCoins(totalCashDepositedByUserForCurrentTransaction, totalPriceOfASingleUserTransaction);
+
+                if (Convert.ToInt32(Request.Form["txtNoOfPennies"]) > 0)
+                {
+                    displayMessage += "\nInvalid Coins (Pennies) detected. Returning all Invalid Coins";
+                }
             }
             return displayMessage;
         }
