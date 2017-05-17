@@ -17,20 +17,25 @@ namespace VendingMachineApp.Models
       Dictionary<string, double> newDict)
         {
             // Simple check, are the counts the same?
-            if (!oldDict.Count.Equals(newDict.Count)) return false;
-
-            // iterate through all the keys in oldDict and
-            // verify whether the key exists in the newDict
-            foreach (int i in Enumerable.Range(1, oldDict.Count))
+            if (!oldDict.Count.Equals(newDict.Count))
             {
-                if (newDict.ElementAt(i).Equals(oldDict.ElementAt(i)))
-                {
-                    // iterate through each value for the current key in oldDict and 
-                    // verify whether or not it exists for the current key in the newDict
-                }
-                else { return false; }
+                return false;
             }
-            return true;
+            else
+            {
+                // iterate through all the keys in oldDict and
+                // verify whether the key exists in the newDict
+                foreach (int i in Enumerable.Range(0, oldDict.Count -1))
+                {
+                    if (newDict.ElementAt(i).Equals(oldDict.ElementAt(i)))
+                    {
+                        // iterate through each value for the current key in oldDict and 
+                        // verify whether or not it exists for the current key in the newDict
+                    }
+                    else { return false; }
+                }
+                return true;
+            }
         }
         public bool checkIfTwoStringIntDictionariesAreIdenticalWithoutSorting(
       Dictionary<string, int> oldDict,
@@ -41,7 +46,7 @@ namespace VendingMachineApp.Models
 
             // iterate through all the keys in oldDict and
             // verify whether the key exists in the newDict
-            foreach (int i in Enumerable.Range(1, oldDict.Count))
+            foreach (int i in Enumerable.Range(0, oldDict.Count-1))
             {
                 if (newDict.ElementAt(i).Equals(oldDict.ElementAt(i)))
                 {

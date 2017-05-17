@@ -34,7 +34,7 @@ namespace VendingMachineApp.Controllers
             dictTotalUserRequestedItems.Add(VendingMachineProductDetailsEnum.Product1Name, Convert.ToInt32(Request.Form["txtColaQnty"]));
             dictTotalUserRequestedItems.Add(VendingMachineProductDetailsEnum.Product2Name, Convert.ToInt32(Request.Form["txtChipsQnty"]));
             dictTotalUserRequestedItems.Add(VendingMachineProductDetailsEnum.Product3Name, Convert.ToInt32(Request.Form["txtCandyQnty"]));
-            double totalPriceOfASingleUserTransaction = vendFun.calculateTotalPriceOfASingleUserTransaction(dictTotalUserRequestedItems);
+            double totalPriceOfASingleUserTransaction = vendFun.calculateTotalPriceOfASingleUserTransaction(dictTotalUserRequestedItems,1);
 
             return "";
         }

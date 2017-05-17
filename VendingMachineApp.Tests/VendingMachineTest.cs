@@ -49,7 +49,7 @@ namespace VendingMachineApp.Tests
             checkTotalPriceOfUserRequestedItems.Add("Cola", 3);   // 1 * 3 = 3
             checkTotalPriceOfUserRequestedItems.Add("Chips", 1); // 0.50 * 1 = 0.50
             checkTotalPriceOfUserRequestedItems.Add("Candy", 5); // 0.65 * 5 = 3.25
-            Assert.AreEqual(6.75, vendFun.calculateTotalPriceOfASingleUserTransaction(checkTotalPriceOfUserRequestedItems));
+            Assert.AreEqual(6.75, vendFun.calculateTotalPriceOfASingleUserTransaction(checkTotalPriceOfUserRequestedItems,1));
         }
         [TestMethod]
         public void testTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange()
