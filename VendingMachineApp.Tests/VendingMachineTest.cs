@@ -64,7 +64,7 @@ namespace VendingMachineApp.Tests
         [TestMethod]
         public void testIfChangeNeedsToBeProvidedByVMOrUserNeedsToInputMoreCoins()
         {
-            Assert.AreEqual("1.25", vendFun.checkIfChangeNeedsToBeProvidedByVMOrUserNeedsToInputMoreCoins(8.75,7.50));
+            Assert.AreEqual("1.25", vendFun.checkIfChangeNeedsToBeProvidedByVMOrUserNeedsToInputMoreCoins(8.75,7.50).ToString());
         }
     }
 }

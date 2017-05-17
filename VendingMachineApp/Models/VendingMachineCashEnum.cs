@@ -15,5 +15,9 @@ namespace VendingMachineApp.Models
         public const string VMNickelsName = CoinTypeEnum.NickelsName;
         public const string VMDimesName = CoinTypeEnum.DimesName;
         public const string VMQuartersName = CoinTypeEnum.QuartersName;
+
+        public Dictionary<string, int> totalRemainingCashInVM = new Dictionary<string, int> { { CoinTypeEnum.QuartersName, VendingMachineCashEnum.totalNumberOfQuartersInVM
+    }, { CoinTypeEnum.DimesName, VendingMachineCashEnum.totalNumberOfDimesInVM
+}, { CoinTypeEnum.NickelsName, VendingMachineCashEnum.totalNumberOfNickelsiInVM } };
     }
 }

@@ -9,7 +9,7 @@ namespace VendingMachineApp.Models
     {
         public double calculateBalance(double number1, double number2)
         {
-            double balance = number2 - number1;
+            double balance = Math.Round(number2 - number1, 2);
             return balance;
         }
         public bool checkIfTwoStringDoubleDictionariesAreIdenticalWithoutSorting(
@@ -25,7 +25,7 @@ namespace VendingMachineApp.Models
             {
                 // iterate through all the keys in oldDict and
                 // verify whether the key exists in the newDict
-                foreach (int i in Enumerable.Range(0, oldDict.Count -1))
+                foreach (int i in Enumerable.Range(0, oldDict.Count - 1))
                 {
                     if (newDict.ElementAt(i).Equals(oldDict.ElementAt(i)))
                     {
@@ -46,7 +46,7 @@ namespace VendingMachineApp.Models
 
             // iterate through all the keys in oldDict and
             // verify whether the key exists in the newDict
-            foreach (int i in Enumerable.Range(0, oldDict.Count-1))
+            foreach (int i in Enumerable.Range(0, oldDict.Count - 1))
             {
                 if (newDict.ElementAt(i).Equals(oldDict.ElementAt(i)))
                 {
@@ -69,6 +69,26 @@ namespace VendingMachineApp.Models
                 .Replace("]", "")
                 .Replace(",", ":");
             return dictionaryStringOutput;
+        }
+
+        public Dictionary<string, int> updateADictionaryUsingAnotherSimilarDictionary(Dictionary<string, int> updateableDict,
+      Dictionary<string, int> updaterDict, String Operation)
+        {
+            foreach (int j in Enumerable.Range(0, updateableDict.Count - 1))
+            {
+                if (updaterDict.ContainsKey(updateableDict.ElementAt(j).Key))
+                {
+                    if (Operation == "ADD")
+                    {
+                        updateableDict[updateableDict.ElementAt(j).Key] = updateableDict.ElementAt(j).Value + updaterDict[updateableDict.ElementAt(j).Key];
+                    }
+                    else
+                    {
+                        updateableDict[updateableDict.ElementAt(j).Key] = updateableDict.ElementAt(j).Value - updaterDict[updateableDict.ElementAt(j).Key];
+                    }
+                }
+            }
+            return updateableDict;
         }
     }
 }

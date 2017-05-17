@@ -10,13 +10,12 @@ namespace VendingMachineApp.Models
     public class VendingMachineLogic
     {
         VendingMachineProductDetailsEnum vPDetailsEnum = new VendingMachineProductDetailsEnum();
+        VendingMachineCashEnum vCEnum = new VendingMachineCashEnum();
         GenericFunctions genFun = new GenericFunctions();
-
+        //Dictionary<string, int> totalRemainingCashInVM = new Dictionary<string, int> { { CoinTypeEnum.QuartersName, VendingMachineCashEnum.totalNumberOfQuartersInVM }, { CoinTypeEnum.DimesName, VendingMachineCashEnum.totalNumberOfDimesInVM }, { CoinTypeEnum.NickelsName, VendingMachineCashEnum.totalNumberOfNickelsiInVM } };
         Dictionary<string, double> productNamesAndPrices = new Dictionary<string, double>();
         Dictionary<string, double> coinNamesAndValues = new Dictionary<string, double>();
         Dictionary<string, int> numberOfNickelsDimesAndQuartersRequiredToMakeChange;
-        Dictionary<string, int> totalRemainingCashInVM = new Dictionary<string, int>() { { CoinTypeEnum.QuartersName, VendingMachineCashEnum.totalNumberOfQuartersInVM } , { CoinTypeEnum.DimesName, VendingMachineCashEnum.totalNumberOfDimesInVM } , { CoinTypeEnum.NickelsName, VendingMachineCashEnum.totalNumberOfNickelsiInVM } };
-        
         public VendingMachineLogic()
         {
             loadCoinDetails();
@@ -42,7 +41,6 @@ namespace VendingMachineApp.Models
             }
             return isValidCoin;
         }
-
         public Boolean isValidCoinDimensions(double coinDimension, string dimensionName, string metricSystem)
         {
             Boolean isValidCoinDimensions = false;
@@ -69,7 +67,6 @@ namespace VendingMachineApp.Models
             }
             return isValidCoinDimensions;
         }
-
         public double calculateMonetaryValueofInsertedCoins(string coinType, int numberOfCoins)
         {
             double monetaryValueofInsertedCoins = 0.00;
@@ -89,7 +86,6 @@ namespace VendingMachineApp.Models
             monetaryValueofInsertedCoins = numberOfCoins * actualValueofEachCoinType;
             return monetaryValueofInsertedCoins;
         }
-
         public Dictionary<string, double> loadProductDetails()
         {
             if (vPDetailsEnum.ProductNames.Count == vPDetailsEnum.ProductPrices.Count)
@@ -103,7 +99,6 @@ namespace VendingMachineApp.Models
             }
             return productNamesAndPrices;
         }
-
         public Dictionary<string, double> loadCoinDetails()
         {
             if (CoinTypeEnum.CoinNames.Count == CoinTypeEnum.CoinValues.Count)
@@ -115,7 +110,6 @@ namespace VendingMachineApp.Models
             }
             return productNamesAndPrices;
         }
-
         public double calculateTotalPriceOfASingleUserTransaction(Dictionary<string, int> itemizedInputList, Int32 type)
         {
             double totalPriceOfTransaction = 0.00;
@@ -128,13 +122,13 @@ namespace VendingMachineApp.Models
                 }else
                 {
                     itemPrice = coinNamesAndValues[itemizedInputList.ElementAt(i).Key];
+                    //Console.WriteLine(genFun.printAStringIntDictionary(vCEnum.totalRemainingCashInVM));
                 }
                 double itemQuantity = itemizedInputList.ElementAt(i).Value;
                 totalPriceOfTransaction += (itemQuantity * itemPrice);
             }
             return totalPriceOfTransaction;
         }
-
         public int calculateNumberOfCoinsRequiredToMakeChange(double changeToBeGivenToTheUser, double coinsValue, String coinsName)
         {
             int numberOfCoinsRequiredToMakeChange = 0;
@@ -162,54 +156,54 @@ namespace VendingMachineApp.Models
             changeToBeGivenToTheUser = remainingChangeToBeGivenToTheUser(changeToBeGivenToTheUser, CoinTypeEnum.QuartersValue, CoinTypeEnum.QuartersName);
             changeToBeGivenToTheUser = remainingChangeToBeGivenToTheUser(changeToBeGivenToTheUser, CoinTypeEnum.DimesValue, CoinTypeEnum.DimesName);
             changeToBeGivenToTheUser = remainingChangeToBeGivenToTheUser(changeToBeGivenToTheUser, CoinTypeEnum.NickelsValue, CoinTypeEnum.NickelsName);
-            Trace.WriteLine(genFun.printAStringIntDictionary(numberOfNickelsDimesAndQuartersRequiredToMakeChange));
+            //Trace.WriteLine(genFun.printAStringIntDictionary(numberOfNickelsDimesAndQuartersRequiredToMakeChange));
             return numberOfNickelsDimesAndQuartersRequiredToMakeChange;
         }
-
         public string checkIfChangeNeedsToBeProvidedByVMOrUserNeedsToInputMoreCoins(double totalValueOfCoinsInsertedByTheUser, double totalPriceOfTransaction)
         {
             String messageToBeDisplayed = "";
             double balanceToBeDisplayed = genFun.calculateBalance(totalPriceOfTransaction, totalValueOfCoinsInsertedByTheUser);
-            Trace.WriteLine("1: " + balanceToBeDisplayed.ToString());
             if (totalPriceOfTransaction > totalValueOfCoinsInsertedByTheUser){
                 messageToBeDisplayed = "Please pay the remanining balance of $" + balanceToBeDisplayed.ToString();
-            }else if (totalPriceOfTransaction < totalValueOfCoinsInsertedByTheUser)
-            {
+            }else if (totalPriceOfTransaction < totalValueOfCoinsInsertedByTheUser){
                 double changeToBeGivenToTheUser = totalValueOfCoinsInsertedByTheUser - totalPriceOfTransaction;
                 if (checkIfThereisEnoughCashInVMAndUpdateRemainingCash(balanceToBeDisplayed) == true) {
-                    Trace.WriteLine("2: " + balanceToBeDisplayed.ToString());
-                    updateRemainingCashAfterTendingChangeInVM();
-                    
-                    messageToBeDisplayed = "Thanks for paying!!! Please collect the remanining balance of $" + balanceToBeDisplayed + "\n Remaining Cash in VM:" + genFun.printAStringIntDictionary(totalRemainingCashInVM);
+                    updateRemainingCashAfterTendingChangeInVM();                   
+                    messageToBeDisplayed = "Thanks for paying!!! Dispensing change to the amount of $" + balanceToBeDisplayed + "\n Remaining Cash in VM:" + genFun.printAStringIntDictionary(vCEnum.totalRemainingCashInVM);
+                }else{
+                    messageToBeDisplayed = "Please tend exact change. Please collect all the coins you deposited";
                 }
+            }else{
+                messageToBeDisplayed = "Thanks for paying!!! Please collect the product";
             }
-            Trace.WriteLine("3: " + balanceToBeDisplayed.ToString());
-            return balanceToBeDisplayed.ToString();
+            //uncomment below line for testing
+            //return balanceToBeDisplayed.ToString();
+            return messageToBeDisplayed;
         }
         public bool checkIfThereisEnoughCashInVMAndUpdateRemainingCash(double changeToBeGivenToTheUser)
         {
             bool isThereEnoughCashInVMToTendChange = true;
             numberOfNickelsDimesAndQuartersRequiredToMakeChange = calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(changeToBeGivenToTheUser);
-            if (numberOfNickelsDimesAndQuartersRequiredToMakeChange.Count.Equals(totalRemainingCashInVM))
+            if (numberOfNickelsDimesAndQuartersRequiredToMakeChange.Count.Equals(vCEnum.totalRemainingCashInVM))
             {
-                foreach (int i in Enumerable.Range(1, numberOfNickelsDimesAndQuartersRequiredToMakeChange.Count))
+                foreach (int i in Enumerable.Range(0, numberOfNickelsDimesAndQuartersRequiredToMakeChange.Count-1))
                 {
-                    if (totalRemainingCashInVM.ElementAt(i).Value < numberOfNickelsDimesAndQuartersRequiredToMakeChange.ElementAt(i).Value)
+                    if (vCEnum.totalRemainingCashInVM.ElementAt(i).Value < numberOfNickelsDimesAndQuartersRequiredToMakeChange.ElementAt(i).Value)
                     {
                         isThereEnoughCashInVMToTendChange = false;
                     }
-                }
-                
+                }                
             }
             return isThereEnoughCashInVMToTendChange;
         }
         //call the updateRemainingCashAfterTendingChangeInVM method only if checkIfThereisEnoughCashInVMAndUpdateRemainingCash returns true
         public void updateRemainingCashAfterTendingChangeInVM()
         {
-            foreach (int i in Enumerable.Range(0, numberOfNickelsDimesAndQuartersRequiredToMakeChange.Count - 1))
-            {
-                totalRemainingCashInVM[totalRemainingCashInVM.ElementAt(i).Key] = totalRemainingCashInVM.ElementAt(i).Value - numberOfNickelsDimesAndQuartersRequiredToMakeChange.ElementAt(i).Value;
-            }
+            genFun.updateADictionaryUsingAnotherSimilarDictionary(vCEnum.totalRemainingCashInVM, numberOfNickelsDimesAndQuartersRequiredToMakeChange, "SUB");
+            //foreach (int i in Enumerable.Range(0, numberOfNickelsDimesAndQuartersRequiredToMakeChange.Count - 1))
+            //{
+            //    vCEnum.totalRemainingCashInVM[vCEnum.totalRemainingCashInVM.ElementAt(i).Key] = vCEnum.totalRemainingCashInVM.ElementAt(i).Value - numberOfNickelsDimesAndQuartersRequiredToMakeChange.ElementAt(i).Value;
+            //}
         }
     }
 }

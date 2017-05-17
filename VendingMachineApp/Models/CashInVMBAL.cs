@@ -13,7 +13,7 @@ namespace VendingMachineApp.Models
             Coin c = new Coin();
             c.CoinNameAndQuantityRemainingInVM.Add(CoinTypeEnum.QuartersName, VendingMachineCashEnum.totalNumberOfQuartersInVM);
             c.CoinNameAndQuantityRemainingInVM.Add(CoinTypeEnum.DimesName, VendingMachineCashEnum.totalNumberOfDimesInVM);
-            c.CoinNameAndQuantityRemainingInVM.Add(CoinTypeEnum.NickelsName, VendingMachineCashEnum.totalNumberOfNickelsiInVM); 
+            c.CoinNameAndQuantityRemainingInVM.Add(CoinTypeEnum.NickelsName, VendingMachineCashEnum.totalNumberOfNickelsiInVM);
             return c;
         }
     }
