@@ -132,11 +132,6 @@ namespace VendingMachineApp.Models
             changeToBeGivenToTheUser = calculateNumberOfCoinsRequiredToMakeChange(changeToBeGivenToTheUser, CoinTypeEnum.QuartersValue, CoinTypeEnum.QuartersName);
             changeToBeGivenToTheUser = calculateNumberOfCoinsRequiredToMakeChange(changeToBeGivenToTheUser, CoinTypeEnum.DimesValue, CoinTypeEnum.DimesName);
             changeToBeGivenToTheUser = calculateNumberOfCoinsRequiredToMakeChange(changeToBeGivenToTheUser, CoinTypeEnum.NickelsValue, CoinTypeEnum.NickelsName);
-            //Trace.WriteLine("-------------------Output Value --------------------");
-            //foreach (var item in numberOfNickelsDimesAndQuartersRequiredToMakeChange)
-            //{
-            //    Trace.WriteLine(item);
-            //}
             return numberOfNickelsDimesAndQuartersRequiredToMakeChange;
         }
 
@@ -148,12 +143,17 @@ namespace VendingMachineApp.Models
                 messageToBeDisplayed = "Please pay the remanining balance of $" + balanceToBeDisplayed.ToString();
             }else if (totalPriceOfTransaction < totalValueOfCoinsInsertedByTheUser)
             {
-                messageToBeDisplayed = "Thanks for paying!!! Please collect the remanining balance of $" + balanceToBeDisplayed.ToString();
+                double changeToBeGivenToTheUser = totalValueOfCoinsInsertedByTheUser - totalPriceOfTransaction;
+                if (checkIfThereisEnoughCashInVMAndUpdateRemainingCash(balanceToBeDisplayed) == true) {
+                    updateRemainingCashAfterTendingChangeInVM();
+                    
+                    messageToBeDisplayed = "Thanks for paying!!! Please collect the remanining balance of $" + balanceToBeDisplayed + "\n Remaining Cash in VM:" + genFun.printAStringIntDictionary(totalRemainingCashInVM);
+                }
             }
             //Trace.WriteLine(balanceToBeDisplayed.ToString());
             return balanceToBeDisplayed.ToString();
         }
-        public Dictionary<string, int> checkIfThereisEnoughCashInVMAndUpdateRemainingCash(double changeToBeGivenToTheUser)
+        public bool checkIfThereisEnoughCashInVMAndUpdateRemainingCash(double changeToBeGivenToTheUser)
         {
             bool isThereEnoughCashInVMToTendChange = true;
             numberOfNickelsDimesAndQuartersRequiredToMakeChange = calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(changeToBeGivenToTheUser);
@@ -166,13 +166,9 @@ namespace VendingMachineApp.Models
                         isThereEnoughCashInVMToTendChange = false;
                     }
                 }
-                if (isThereEnoughCashInVMToTendChange == true) { updateRemainingCashAfterTendingChangeInVM(); }
-                foreach (var item in totalRemainingCashInVM)
-                {
-                    Trace.WriteLine(item);
-                }
+                
             }
-            return totalRemainingCashInVM;
+            return isThereEnoughCashInVMToTendChange;
         }
         //call the updateRemainingCashAfterTendingChangeInVM method only if checkIfThereisEnoughCashInVMAndUpdateRemainingCash returns true
         public void updateRemainingCashAfterTendingChangeInVM()

@@ -41,5 +41,8 @@ namespace VendingMachineApp.Constants
         public static readonly List<double> acceptable_weight = new List<double> { NickelsWeight, DimesWeight, QuartersWeight };  //in grams
         public static readonly List<double> acceptable_diameter = new List<double> { NickelsDiameter, DimesDiameter, QuartersDiameter }; // in inches
         public static readonly List<double> acceptable_thickness = new List<double> { NickelsThickness, DimesThickness, QuartersThickness };  // in mm
+
+        public List<string> CoinNames = new List<string> { NickelsName, DimesName, QuartersName };
+        public List<double> CoinValues = new List<double> { NickelsValue, DimesValue, QuartersValue };
     }
 }

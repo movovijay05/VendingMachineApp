@@ -58,8 +58,11 @@ namespace VendingMachineApp.Models
             String dictionaryStringOutput = "";
             foreach (var item in printableStringIntDcitionary)
             {
-                dictionaryStringOutput += item;
+                dictionaryStringOutput += "\n" + item;
             }
+            dictionaryStringOutput = dictionaryStringOutput.Replace("[", "")
+                .Replace("]", "")
+                .Replace(",", ":");
             return dictionaryStringOutput;
         }
     }

@@ -10,10 +10,10 @@ namespace VendingMachineApp.Constants
         public static string Product1Name = "Cola";
         static double Product1Price = 1.00;
 
-        static string Product2Name = "Chips";
+        public static string Product2Name = "Chips";
         static double Product2Price = 0.50;
 
-        static string Product3Name = "Candy";
+        public static string Product3Name = "Candy";
         static double Product3Price = 0.65;
 
         //public List<string> ProductNames = new List<string> { "Cola", "Chips", "Candy" };
