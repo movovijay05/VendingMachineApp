@@ -13,9 +13,15 @@ namespace VendingMachineApp.Models
         GenericFunctions genFun = new GenericFunctions();
 
         Dictionary<string, double> productNamesAndPrices = new Dictionary<string, double>();
+        Dictionary<string, double> coinNamesAndValues = new Dictionary<string, double>();
         Dictionary<string, int> numberOfNickelsDimesAndQuartersRequiredToMakeChange;
         Dictionary<string, int> totalRemainingCashInVM = new Dictionary<string, int>() { { CoinTypeEnum.QuartersName, VendingMachineCashEnum.totalNumberOfQuartersInVM } , { CoinTypeEnum.DimesName, VendingMachineCashEnum.totalNumberOfDimesInVM } , { CoinTypeEnum.NickelsName, VendingMachineCashEnum.totalNumberOfNickelsiInVM } };
         
+        public VendingMachineLogic()
+        {
+            loadCoinDetails();
+            loadProductDetails();
+        }
         public Boolean isValidCoinType(int coinType)
         {
             Boolean isValidCoin = false;
@@ -96,13 +102,31 @@ namespace VendingMachineApp.Models
             return productNamesAndPrices;
         }
 
-        public double calculateTotalPriceOfASingleUserTransaction(Dictionary<string, int> itemizedInputList)
+        public Dictionary<string, double> loadCoinDetails()
         {
-            loadProductDetails();
+            if (CoinTypeEnum.CoinNames.Count == CoinTypeEnum.CoinValues.Count)
+            {
+                for (int i = 0; i < CoinTypeEnum.CoinNames.Count; i++)
+                {
+                    coinNamesAndValues.Add(CoinTypeEnum.CoinNames[i], CoinTypeEnum.CoinValues[i]);
+                }
+            }
+            return productNamesAndPrices;
+        }
+
+        public double calculateTotalPriceOfASingleUserTransaction(Dictionary<string, int> itemizedInputList, Int32 type)
+        {
             double totalPriceOfTransaction = 0.00;
             for (int i = 0; i < itemizedInputList.Count; i++)
             {
-                double itemPrice = productNamesAndPrices[itemizedInputList.ElementAt(i).Key];
+                double itemPrice = 0.00;
+                if (type == 1)
+                {
+                    itemPrice = productNamesAndPrices[itemizedInputList.ElementAt(i).Key];
+                }else
+                {
+                    itemPrice = coinNamesAndValues[itemizedInputList.ElementAt(i).Key];
+                }
                 double itemQuantity = itemizedInputList.ElementAt(i).Value;
                 totalPriceOfTransaction += (itemQuantity * itemPrice);
             }
