@@ -74,7 +74,7 @@ namespace VendingMachineApp.Models
         public Dictionary<string, int> updateADictionaryUsingAnotherSimilarDictionary(Dictionary<string, int> updateableDict,
       Dictionary<string, int> updaterDict, String Operation)
         {
-            foreach (int j in Enumerable.Range(0, updateableDict.Count - 1))
+            foreach (int j in Enumerable.Range(0, updateableDict.Count))
             {
                 if (updaterDict.ContainsKey(updateableDict.ElementAt(j).Key))
                 {

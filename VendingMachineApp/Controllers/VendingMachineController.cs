@@ -18,11 +18,24 @@ namespace VendingMachineApp.Controllers
         public ActionResult VendingMachineDisplayView()
         {
             ViewBag.DisplayMessage = displayWelcomeMesssage();
-            resetCounts();
+            getAllInputValues();
             return View("VendingMachineDisplayView");
         }
         // GET: VendingMachineFormData 
         public ActionResult passVMValues()
+        {
+            getAllInputValues();
+
+            vCEnum.totalRemainingCashInVM = new Dictionary<string, int> {};
+            vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange = new Dictionary<string, int>();
+            vCEnum.totalRemainingCashInVM.Add(CoinTypeEnum.QuartersName, Convert.ToInt32(ViewBag.QuartersInVM ?? "0"));
+            vCEnum.totalRemainingCashInVM.Add(CoinTypeEnum.DimesName, Convert.ToInt32(ViewBag.DimesInVM ?? "0"));
+            vCEnum.totalRemainingCashInVM.Add(CoinTypeEnum.NickelsName, Convert.ToInt32(ViewBag.NickelsInVM ?? "0"));
+
+            ViewBag.DisplayMessage = updateVendingMachineDisplayMessage();
+           return View("VendingMachineDisplayView");
+        }
+        public void getAllInputValues()
         {
             ViewBag.QuartersCount = Convert.ToInt32(Request.Form["txtNoOfQuarters"] ?? "0").ToString();
             ViewBag.NickelsCount = Convert.ToInt32(Request.Form["txtNoOfNickels"] ?? "0").ToString();
@@ -32,24 +45,16 @@ namespace VendingMachineApp.Controllers
             ViewBag.Product2Count = Convert.ToInt32(Request.Form["txtChipsQnty"] ?? "0").ToString();
             ViewBag.Product3Count = Convert.ToInt32(Request.Form["txtCandyQnty"] ?? "0").ToString();
 
-            ViewBag.QuartersInVM = Convert.ToInt32(Request.Form["txtQuartersinVM"] ?? "10").ToString();
-            ViewBag.DimesInVM = Convert.ToInt32(Request.Form["txtDimesinVM"] ?? "10").ToString();
-            ViewBag.NickelsInVM = Convert.ToInt32(Request.Form["txtNickelsinVM"] ?? "10").ToString();
+            CashInVMBAL cVM = new CashInVMBAL();
+            Coin c = cVM.getCashInVM();//could be used for getting data from database
 
-            vCEnum.totalRemainingCashInVM = new Dictionary<string, int> {};
-            vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange = new Dictionary<string, int>();
-            vCEnum.totalRemainingCashInVM.Add(CoinTypeEnum.QuartersName, Convert.ToInt32(Request.Form["txtQuartersinVM"] ?? "0"));
-            vCEnum.totalRemainingCashInVM.Add(CoinTypeEnum.DimesName, Convert.ToInt32(Request.Form["txtDimesinVM"] ?? "0"));
-            vCEnum.totalRemainingCashInVM.Add(CoinTypeEnum.NickelsName, Convert.ToInt32(Request.Form["txtNickelsinVM"] ?? "0"));
-
-            ViewBag.DisplayMessage = updateVendingMachineDisplayMessage();
-           return View("VendingMachineDisplayView");
+            ViewBag.QuartersInVM = Convert.ToInt32(Request.Form["txtQuartersinVM"] ?? c.CoinNameAndQuantityRemainingInVM[CoinTypeEnum.QuartersName].ToString()).ToString();
+            ViewBag.DimesInVM = Convert.ToInt32(Request.Form["txtDimesinVM"] ?? c.CoinNameAndQuantityRemainingInVM[CoinTypeEnum.DimesName].ToString()).ToString();
+            ViewBag.NickelsInVM = Convert.ToInt32(Request.Form["txtNickelsinVM"] ?? c.CoinNameAndQuantityRemainingInVM[CoinTypeEnum.NickelsName].ToString()).ToString();
         }
-
         public String displayWelcomeMesssage()
         {
             String displayMessage = "Welcome!!!" + "\n" + "Please select the item you want to purchase \n";
-            getCoinBalance();
             return displayMessage;
         }
         public void resetCounts()
@@ -67,17 +72,19 @@ namespace VendingMachineApp.Controllers
             String displayMessage = "";
 
             Dictionary<string, int> dictTotalUserRequestedItems = new Dictionary<string, int>();
-            dictTotalUserRequestedItems.Add(VendingMachineProductDetailsEnum.Product1Name, Convert.ToInt32(Request.Form["txtColaQnty"] ?? "0"));
-            dictTotalUserRequestedItems.Add(VendingMachineProductDetailsEnum.Product2Name, Convert.ToInt32(Request.Form["txtChipsQnty"] ?? "0"));
-            dictTotalUserRequestedItems.Add(VendingMachineProductDetailsEnum.Product3Name, Convert.ToInt32(Request.Form["txtCandyQnty"] ?? "0"));
+            dictTotalUserRequestedItems.Add(VendingMachineProductDetailsEnum.Product1Name, Convert.ToInt32(ViewBag.Product1Count ?? "0"));
+            dictTotalUserRequestedItems.Add(VendingMachineProductDetailsEnum.Product2Name, Convert.ToInt32(ViewBag.Product2Count ?? "0"));
+            dictTotalUserRequestedItems.Add(VendingMachineProductDetailsEnum.Product3Name, Convert.ToInt32(ViewBag.Product3Count ?? "0"));
 
             vCEnum.totalPriceOfTransaction = vendFun.calculateTotalPriceOfASingleUserTransaction(dictTotalUserRequestedItems,1);
             displayMessage += "Cash Required: $" + vCEnum.totalPriceOfTransaction  + "\n";
 
             Dictionary<string, int> dictTotalUserDepositedCoins = new Dictionary<string, int>();
-            dictTotalUserDepositedCoins.Add(CoinTypeEnum.DimesName, Convert.ToInt32(Request.Form["txtNoOfDimes"] ?? "0"));
-            dictTotalUserDepositedCoins.Add(CoinTypeEnum.NickelsName, Convert.ToInt32(Request.Form["txtNoOfNickels"] ?? "0"));
-            dictTotalUserDepositedCoins.Add(CoinTypeEnum.QuartersName, Convert.ToInt32(Request.Form["txtNoOfQuarters"] ?? "0"));
+
+            dictTotalUserDepositedCoins.Add(CoinTypeEnum.QuartersName, Convert.ToInt32(ViewBag.QuartersCount ?? "0"));
+            dictTotalUserDepositedCoins.Add(CoinTypeEnum.DimesName, Convert.ToInt32(ViewBag.DimesCount ?? "0"));
+            dictTotalUserDepositedCoins.Add(CoinTypeEnum.NickelsName, Convert.ToInt32(ViewBag.NickelsCount ?? "0"));
+            
             genFun.updateADictionaryUsingAnotherSimilarDictionary(vCEnum.totalRemainingCashInVM, dictTotalUserDepositedCoins, "ADD");
             vCEnum.totalValueOfCoinsInsertedByTheUser = vendFun.calculateTotalPriceOfASingleUserTransaction(dictTotalUserDepositedCoins, 2);
 
@@ -113,14 +120,5 @@ namespace VendingMachineApp.Controllers
             }
             return displayMessage;
         }
-        public void getCoinBalance()
-        {
-            CashInVMBAL cVM = new CashInVMBAL();
-            Coin c = cVM.getCashInVM();
-
-            ViewBag.QuartersInVM = Convert.ToInt32(Request.Form["txtQuartersinVM"] ?? c.CoinNameAndQuantityRemainingInVM[CoinTypeEnum.QuartersName].ToString()).ToString();
-            ViewBag.DimesInVM = Convert.ToInt32(Request.Form["txtDimesinVM"] ?? c.CoinNameAndQuantityRemainingInVM[CoinTypeEnum.DimesName].ToString()).ToString();
-            ViewBag.NickelsInVM = Convert.ToInt32(Request.Form["txtNickelsinVM"] ?? c.CoinNameAndQuantityRemainingInVM[CoinTypeEnum.NickelsName].ToString()).ToString();
-        }    
     }
 }

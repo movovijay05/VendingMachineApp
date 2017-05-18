@@ -10,7 +10,6 @@ namespace VendingMachineApp.Models
     public class VendingMachineLogic
     {
         VendingMachineProductDetailsEnum vPDetailsEnum = new VendingMachineProductDetailsEnum();
-        //VendingMachineCashEnum vCEnum = new VendingMachineCashEnum();
         GenericFunctions genFun = new GenericFunctions();
         //Dictionary<string, int> totalRemainingCashInVM = new Dictionary<string, int> { { CoinTypeEnum.QuartersName, VendingMachineCashEnum.totalNumberOfQuartersInVM }, { CoinTypeEnum.DimesName, VendingMachineCashEnum.totalNumberOfDimesInVM }, { CoinTypeEnum.NickelsName, VendingMachineCashEnum.totalNumberOfNickelsiInVM } };
         Dictionary<string, double> productNamesAndPrices = new Dictionary<string, double>();
@@ -142,8 +141,10 @@ namespace VendingMachineApp.Models
             if (vCEnum.changeToBeGivenToTheUser > 0.00)
             {
                 int numberOfCoinsRequiredToMakeChange = calculateNumberOfCoinsRequiredToMakeChange(vCEnum.changeToBeGivenToTheUser, coinsValue, coinsName);
-                vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange.Add(coinsName, numberOfCoinsRequiredToMakeChange);
-                vCEnum.changeToBeGivenToTheUser = (vCEnum.changeToBeGivenToTheUser - (numberOfCoinsRequiredToMakeChange * coinsValue));
+                if (vCEnum.totalRemainingCashInVM[coinsName] > numberOfCoinsRequiredToMakeChange) { 
+                    vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange.Add(coinsName, numberOfCoinsRequiredToMakeChange);
+                    vCEnum.changeToBeGivenToTheUser = (vCEnum.changeToBeGivenToTheUser - (numberOfCoinsRequiredToMakeChange * coinsValue));
+                }
             }
             else { vCEnum.changeToBeGivenToTheUser = 0.00; }
                 return vCEnum.changeToBeGivenToTheUser;
@@ -165,8 +166,7 @@ namespace VendingMachineApp.Models
                 messageToBeDisplayed = "Please pay the remanining balance of $" + vCEnum.balanceToBeDisplayed.ToString();
             }else if (vCEnum.totalPriceOfTransaction < vCEnum.totalValueOfCoinsInsertedByTheUser){
                 vCEnum.changeToBeGivenToTheUser = vCEnum.totalValueOfCoinsInsertedByTheUser - vCEnum.totalPriceOfTransaction;
-                if (checkIfThereisEnoughCashInVMAndUpdateRemainingCash(vCEnum) == true) {
-                    // updateRemainingCashAfterTendingChangeInVM();                   
+                if (checkIfThereisEnoughCashInVMAndUpdateRemainingCash(vCEnum) == true) {                  
                     messageToBeDisplayed = "Thanks for paying!!! Dispensing change to the amount of $" + vCEnum.balanceToBeDisplayed;//+ "\n Remaining Cash in VM:" + genFun.printAStringIntDictionary(vCEnum.totalRemainingCashInVM);
                 }else{
                     messageToBeDisplayed = "Please tend exact change. Please collect all the coins you deposited";
@@ -199,10 +199,6 @@ namespace VendingMachineApp.Models
         {
             vCEnum.totalRemainingCashInVM = genFun.updateADictionaryUsingAnotherSimilarDictionary(vCEnum.totalRemainingCashInVM, vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange, "SUB");
             return vCEnum.totalRemainingCashInVM;
-            //foreach (int i in Enumerable.Range(0, vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange.Count - 1))
-            //{
-            //    vCEnum.totalRemainingCashInVM[vCEnum.totalRemainingCashInVM.ElementAt(i).Key] = vCEnum.totalRemainingCashInVM.ElementAt(i).Value - vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange.ElementAt(i).Value;
-            //}
         }
     }
 }
