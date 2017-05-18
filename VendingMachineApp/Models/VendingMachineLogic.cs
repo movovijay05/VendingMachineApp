@@ -10,12 +10,11 @@ namespace VendingMachineApp.Models
     public class VendingMachineLogic
     {
         VendingMachineProductDetailsEnum vPDetailsEnum = new VendingMachineProductDetailsEnum();
-        VendingMachineCashEnum vCEnum = new VendingMachineCashEnum();
+        //VendingMachineCashEnum vCEnum = new VendingMachineCashEnum();
         GenericFunctions genFun = new GenericFunctions();
         //Dictionary<string, int> totalRemainingCashInVM = new Dictionary<string, int> { { CoinTypeEnum.QuartersName, VendingMachineCashEnum.totalNumberOfQuartersInVM }, { CoinTypeEnum.DimesName, VendingMachineCashEnum.totalNumberOfDimesInVM }, { CoinTypeEnum.NickelsName, VendingMachineCashEnum.totalNumberOfNickelsiInVM } };
         Dictionary<string, double> productNamesAndPrices = new Dictionary<string, double>();
         Dictionary<string, double> coinNamesAndValues = new Dictionary<string, double>();
-        Dictionary<string, int> numberOfNickelsDimesAndQuartersRequiredToMakeChange;
         public VendingMachineLogic()
         {
             loadCoinDetails();
@@ -139,37 +138,36 @@ namespace VendingMachineApp.Models
             }
             return numberOfCoinsRequiredToMakeChange;
         }
-        public double remainingChangeToBeGivenToTheUser(double changeToBeGivenToTheUser, double coinsValue, String coinsName) {
-            if (changeToBeGivenToTheUser > 0.00)
+        public double remainingChangeToBeGivenToTheUser(double coinsValue, String coinsName, VendingMachineCashEnum vCEnum) {
+            if (vCEnum.changeToBeGivenToTheUser > 0.00)
             {
-                int numberOfCoinsRequiredToMakeChange = calculateNumberOfCoinsRequiredToMakeChange(changeToBeGivenToTheUser, coinsValue, coinsName);
-                numberOfNickelsDimesAndQuartersRequiredToMakeChange.Add(coinsName, numberOfCoinsRequiredToMakeChange);
-                changeToBeGivenToTheUser = (changeToBeGivenToTheUser - (numberOfCoinsRequiredToMakeChange * coinsValue));
+                int numberOfCoinsRequiredToMakeChange = calculateNumberOfCoinsRequiredToMakeChange(vCEnum.changeToBeGivenToTheUser, coinsValue, coinsName);
+                vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange.Add(coinsName, numberOfCoinsRequiredToMakeChange);
+                vCEnum.changeToBeGivenToTheUser = (vCEnum.changeToBeGivenToTheUser - (numberOfCoinsRequiredToMakeChange * coinsValue));
             }
-            else { changeToBeGivenToTheUser = 0.00; }
-                return changeToBeGivenToTheUser;
+            else { vCEnum.changeToBeGivenToTheUser = 0.00; }
+                return vCEnum.changeToBeGivenToTheUser;
         }
-        public Dictionary<string, int> calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(double changeToBeGivenToTheUser)
+        public Dictionary<string, int> calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(VendingMachineCashEnum vCEnum)
         {
-            numberOfNickelsDimesAndQuartersRequiredToMakeChange = new Dictionary<string, int>();
             // The order of the below lines is important
-            changeToBeGivenToTheUser = remainingChangeToBeGivenToTheUser(changeToBeGivenToTheUser, CoinTypeEnum.QuartersValue, CoinTypeEnum.QuartersName);
-            changeToBeGivenToTheUser = remainingChangeToBeGivenToTheUser(changeToBeGivenToTheUser, CoinTypeEnum.DimesValue, CoinTypeEnum.DimesName);
-            changeToBeGivenToTheUser = remainingChangeToBeGivenToTheUser(changeToBeGivenToTheUser, CoinTypeEnum.NickelsValue, CoinTypeEnum.NickelsName);
-            //Trace.WriteLine(genFun.printAStringIntDictionary(numberOfNickelsDimesAndQuartersRequiredToMakeChange));
-            return numberOfNickelsDimesAndQuartersRequiredToMakeChange;
+            vCEnum.changeToBeGivenToTheUser = remainingChangeToBeGivenToTheUser(CoinTypeEnum.QuartersValue, CoinTypeEnum.QuartersName, vCEnum);
+            vCEnum.changeToBeGivenToTheUser = remainingChangeToBeGivenToTheUser(CoinTypeEnum.DimesValue, CoinTypeEnum.DimesName, vCEnum);
+            vCEnum.changeToBeGivenToTheUser = remainingChangeToBeGivenToTheUser(CoinTypeEnum.NickelsValue, CoinTypeEnum.NickelsName, vCEnum);
+            //Trace.WriteLine(genFun.printAStringIntDictionary(vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange));
+            return vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange;
         }
-        public string checkIfChangeNeedsToBeProvidedByVMOrUserNeedsToInputMoreCoins(double totalValueOfCoinsInsertedByTheUser, double totalPriceOfTransaction)
+        public string checkIfChangeNeedsToBeProvidedByVMOrUserNeedsToInputMoreCoins(VendingMachineCashEnum vCEnum)
         {
             String messageToBeDisplayed = "";
-            double balanceToBeDisplayed = genFun.calculateBalance(totalPriceOfTransaction, totalValueOfCoinsInsertedByTheUser);
-            if (totalPriceOfTransaction > totalValueOfCoinsInsertedByTheUser){
-                messageToBeDisplayed = "Please pay the remanining balance of $" + balanceToBeDisplayed.ToString();
-            }else if (totalPriceOfTransaction < totalValueOfCoinsInsertedByTheUser){
-                double changeToBeGivenToTheUser = totalValueOfCoinsInsertedByTheUser - totalPriceOfTransaction;
-                if (checkIfThereisEnoughCashInVMAndUpdateRemainingCash(balanceToBeDisplayed) == true) {
-                    updateRemainingCashAfterTendingChangeInVM();                   
-                    messageToBeDisplayed = "Thanks for paying!!! Dispensing change to the amount of $" + balanceToBeDisplayed + "\n Remaining Cash in VM:" + genFun.printAStringIntDictionary(vCEnum.totalRemainingCashInVM);
+            vCEnum.balanceToBeDisplayed = genFun.calculateBalance(vCEnum.totalPriceOfTransaction, vCEnum.totalValueOfCoinsInsertedByTheUser);
+            if (vCEnum.totalPriceOfTransaction > vCEnum.totalValueOfCoinsInsertedByTheUser){
+                messageToBeDisplayed = "Please pay the remanining balance of $" + vCEnum.balanceToBeDisplayed.ToString();
+            }else if (vCEnum.totalPriceOfTransaction < vCEnum.totalValueOfCoinsInsertedByTheUser){
+                vCEnum.changeToBeGivenToTheUser = vCEnum.totalValueOfCoinsInsertedByTheUser - vCEnum.totalPriceOfTransaction;
+                if (checkIfThereisEnoughCashInVMAndUpdateRemainingCash(vCEnum) == true) {
+                    // updateRemainingCashAfterTendingChangeInVM();                   
+                    messageToBeDisplayed = "Thanks for paying!!! Dispensing change to the amount of $" + vCEnum.balanceToBeDisplayed;//+ "\n Remaining Cash in VM:" + genFun.printAStringIntDictionary(vCEnum.totalRemainingCashInVM);
                 }else{
                     messageToBeDisplayed = "Please tend exact change. Please collect all the coins you deposited";
                 }
@@ -177,18 +175,18 @@ namespace VendingMachineApp.Models
                 messageToBeDisplayed = "Thanks for paying!!! Please collect the product";
             }
             //uncomment below line for testing
-            //return balanceToBeDisplayed.ToString();
+            //return vCEnum.balanceToBeDisplayed.ToString();
             return messageToBeDisplayed;
         }
-        public bool checkIfThereisEnoughCashInVMAndUpdateRemainingCash(double changeToBeGivenToTheUser)
+        public bool checkIfThereisEnoughCashInVMAndUpdateRemainingCash(VendingMachineCashEnum vCEnum)
         {
             bool isThereEnoughCashInVMToTendChange = true;
-            numberOfNickelsDimesAndQuartersRequiredToMakeChange = calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(changeToBeGivenToTheUser);
-            if (numberOfNickelsDimesAndQuartersRequiredToMakeChange.Count.Equals(vCEnum.totalRemainingCashInVM))
+            vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange = calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(vCEnum);
+            if (vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange.Count.Equals(vCEnum.totalRemainingCashInVM))
             {
-                foreach (int i in Enumerable.Range(0, numberOfNickelsDimesAndQuartersRequiredToMakeChange.Count-1))
+                foreach (int i in Enumerable.Range(0, vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange.Count-1))
                 {
-                    if (vCEnum.totalRemainingCashInVM.ElementAt(i).Value < numberOfNickelsDimesAndQuartersRequiredToMakeChange.ElementAt(i).Value)
+                    if (vCEnum.totalRemainingCashInVM.ElementAt(i).Value < vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange.ElementAt(i).Value)
                     {
                         isThereEnoughCashInVMToTendChange = false;
                     }
@@ -197,12 +195,13 @@ namespace VendingMachineApp.Models
             return isThereEnoughCashInVMToTendChange;
         }
         //call the updateRemainingCashAfterTendingChangeInVM method only if checkIfThereisEnoughCashInVMAndUpdateRemainingCash returns true
-        public void updateRemainingCashAfterTendingChangeInVM()
+        public Dictionary<String,int>  updateRemainingCashAfterTendingChangeInVM(VendingMachineCashEnum vCEnum)
         {
-            genFun.updateADictionaryUsingAnotherSimilarDictionary(vCEnum.totalRemainingCashInVM, numberOfNickelsDimesAndQuartersRequiredToMakeChange, "SUB");
-            //foreach (int i in Enumerable.Range(0, numberOfNickelsDimesAndQuartersRequiredToMakeChange.Count - 1))
+            vCEnum.totalRemainingCashInVM = genFun.updateADictionaryUsingAnotherSimilarDictionary(vCEnum.totalRemainingCashInVM, vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange, "SUB");
+            return vCEnum.totalRemainingCashInVM;
+            //foreach (int i in Enumerable.Range(0, vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange.Count - 1))
             //{
-            //    vCEnum.totalRemainingCashInVM[vCEnum.totalRemainingCashInVM.ElementAt(i).Key] = vCEnum.totalRemainingCashInVM.ElementAt(i).Value - numberOfNickelsDimesAndQuartersRequiredToMakeChange.ElementAt(i).Value;
+            //    vCEnum.totalRemainingCashInVM[vCEnum.totalRemainingCashInVM.ElementAt(i).Key] = vCEnum.totalRemainingCashInVM.ElementAt(i).Value - vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange.ElementAt(i).Value;
             //}
         }
     }

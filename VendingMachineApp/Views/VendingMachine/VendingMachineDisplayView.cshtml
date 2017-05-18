@@ -113,7 +113,6 @@
         <td class="auto-style5">
             <input name="txtCandyQnty" type="text" class="auto-style17" maxlength="1" value ="@ViewBag.Product3Count" onkeypress="return isNumberKey(event)" /></td>
         <td class="auto-style4">&nbsp;</td>
-        <td class="auto-style14"></td>
     </tr>
     <tr>
         <td class="auto-style21" colspan="8">Please input coins</td>
@@ -131,6 +130,19 @@
         <td class="auto-style6">Pennies</td>
         <td class="auto-style15">
             <input name="txtNoOfPennies" type="text" class="auto-style17" maxlength="2" value ="0" onkeypress="return isNumberKey(event)" /></td>
+    </tr>
+    <tr>
+        <td class="auto-style21" colspan="8">Cash Remaining in Vending Machine</td>
+    </tr>
+    <tr><td class="auto-style6">Quarters</td>
+        <td class="auto-style14">
+            <input name="txtQuartersinVM" type="text" readonly ="readonly"  class="auto-style17"  value ="@ViewBag.QuartersInVM"/></td>
+        <td class="auto-style6">Dimes</td>
+        <td class="auto-style14">
+            <input name="txtDimesinVM" type="text" readonly ="readonly"  class="auto-style17"  value ="@ViewBag.DimesInVM"/></td>
+        <td class="auto-style6">Nickels</td>
+        <td class="auto-style14">
+            <input name="txtNickelsinVM" type="text" readonly ="readonly"  class="auto-style17"  value ="@ViewBag.NickelsInVM"/></td>
     </tr>
     <tr>
         <td class="auto-style18" colspan="4">
