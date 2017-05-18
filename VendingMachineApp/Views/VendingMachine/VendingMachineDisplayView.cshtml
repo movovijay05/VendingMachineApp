@@ -13,40 +13,30 @@
         .auto-style4 {
             text-align: center;
             width: 126px;
-            height: 83px;
+            height: 60px;
         }
         .auto-style5 {
             text-align: center;
-            height: 83px;
-        }
-        .auto-style6 {
-            text-align: center;
-            width: 126px;
-            height: 85px;
-        }
-        .auto-style7 {
-            height: 85px;
+            height: 60px;
         }
         .tblVM{
             text-align: center;
+            font-weight:bold;
         }
         .classVMDisplay{
             width: 100%;
             height: 100%;
             text-align:center;
+            font-weight:bold;
         }
         .auto-style8 {
             text-align: center;
             width: 429px;
-        }
-        .auto-style14 {
-            text-align: center;
-            height: 83px;
-            width: 102px;
+            font-weight:bold;
         }
         .auto-style15 {
             text-align: center;
-            height: 85px;
+            height: 60px;
             width: 102px;
         }
         .auto-style17 {
@@ -57,6 +47,7 @@
         .auto-style18 {
             text-align: center;
             height: 50px;
+            background-color:  goldenrod;
         }
         .auto-style20 {
             text-align: center;
@@ -67,6 +58,22 @@
         .auto-style21 {
             text-align: center;
             height: 40px;
+        }
+
+        .auto-style22 {
+            width: 184%;
+            height: 100%;
+            text-align: center;
+        }
+
+        .auto-style23 {
+            text-align: center;
+            height: 59px;
+            width: 250px;
+        }
+
+        .auto-style24 {
+            height: 60px;
         }
 
     </style>
@@ -88,63 +95,65 @@
     ViewBag.Title = "VendingMachineDisplayView";
 }
 <form action="/VendingMachine/passVMValues" method="post">
-<table class="auto-style8">
-    <tr>
-        <td class="auto-style3" colspan="8">
-<h2>VendingMachine</h2>
+<table class="auto-style8" aria-multiline="True">
+    <tr style ="background-color: yellowgreen">
+        <td class="auto-style23" colspan="8">
+<h2 aria-multiline="True">VendingMachine</h2>
 
         </td>
     </tr>
-    <tr>
+    <tr style ="background-color: goldenrod">
         <td class="auto-style3" colspan="8">
-            <textarea name="txtVMDisplay" readonly ="readonly" class="classVMDisplay">@ViewBag.DisplayMessage</textarea></td>
+            <textarea style ="background-color:lemonchiffon" name="txtVMDisplay" readonly ="readonly" class="auto-style22">@ViewBag.DisplayMessage</textarea></td>
     </tr>
-    <tr>
+    <tr style ="background-color: lightblue">
         <td class="auto-style21" colspan="8">Please input product quantity</td>
     </tr>
-    <tr>
-        <td class="auto-style4">Cola</td>
+    <tr style ="background-color:lightblue">
+        <td class="auto-style4">Cola<br />($1.00)</td>
         <td class="auto-style5">
             <input name="txtColaQnty" type="text" class="auto-style17" maxlength="1" value ="@ViewBag.Product1Count" onkeypress ="return isNumberKey(event)"/></td>
-        <td class="auto-style4">Chips</td>
+        <td class="auto-style4"></td>
+        <td class="auto-style4">Chips<br />($0.50)</td>
         <td class="auto-style5">
             <input name="txtChipsQnty" type="text" class="auto-style17" maxlength="1" value ="@ViewBag.Product2Count" onkeypress="return isNumberKey(event)" /></td>
-        <td class="auto-style4">Candy</td>
+        <td class="auto-style24"></td>
+        <td class="auto-style4">Candy<br />($0.65)</td>
         <td class="auto-style5">
             <input name="txtCandyQnty" type="text" class="auto-style17" maxlength="1" value ="@ViewBag.Product3Count" onkeypress="return isNumberKey(event)" /></td>
-        <td class="auto-style4">&nbsp;</td>
     </tr>
-    <tr>
+    <tr style ="background-color:aquamarine">
         <td class="auto-style21" colspan="8">Please input coins</td>
     </tr>
-    <tr>
-        <td class="auto-style6">Quarters</td>
-        <td class="auto-style7">
+    <tr style ="background-color: aquamarine">
+        <td class="auto-style4">Quarters</td>
+        <td class="auto-style24">
             <input name="txtNoOfQuarters" type="text" class="auto-style17" maxlength="2" value ="@ViewBag.QuartersCount" onkeypress="return isNumberKey(event)" /></td>
-        <td class="auto-style6">Dimes</td>
-        <td class="auto-style7">
+        <td class="auto-style4">Dimes</td>
+        <td class="auto-style24">
             <input name="txtNoOfDimes" type="text" class="auto-style17" maxlength="2" value ="@ViewBag.DimesCount" onkeypress="return isNumberKey(event)" /></td>
-        <td class="auto-style6">Nickels</td>
-        <td class="auto-style7">
+        <td class="auto-style4">Nickels</td>
+        <td class="auto-style24">
             <input name="txtNoOfNickels" type="text" class="auto-style17" maxlength="2" value ="@ViewBag.NickelsCount" onkeypress="return isNumberKey(event)" /></td>
-        <td class="auto-style6">Pennies</td>
+        <td class="auto-style4">Pennies</td>
         <td class="auto-style15">
             <input name="txtNoOfPennies" type="text" class="auto-style17" maxlength="2" value ="0" onkeypress="return isNumberKey(event)" /></td>
     </tr>
-    <tr>
+    <tr style ="background-color: lightgrey">
         <td class="auto-style21" colspan="8">Cash Remaining in Vending Machine</td>
     </tr>
-    <tr><td class="auto-style6">Quarters</td>
-        <td class="auto-style14">
+    <tr style ="background-color: lightgrey"><td class="auto-style4">Quarters</td>
+        <td class="auto-style15">
             <input name="txtQuartersinVM" type="text" readonly ="readonly"  class="auto-style17"  value ="@ViewBag.QuartersInVM"/></td>
-        <td class="auto-style6">Dimes</td>
-        <td class="auto-style14">
+        <td class="auto-style4">Dimes</td>
+        <td class="auto-style15">
             <input name="txtDimesinVM" type="text" readonly ="readonly"  class="auto-style17"  value ="@ViewBag.DimesInVM"/></td>
-        <td class="auto-style6">Nickels</td>
-        <td class="auto-style14">
+        <td class="auto-style4">Nickels</td>
+        <td class="auto-style15">
             <input name="txtNickelsinVM" type="text" readonly ="readonly"  class="auto-style17"  value ="@ViewBag.NickelsInVM"/></td>
+    <td class="auto-style24"></td><td class="auto-style24"></td>
     </tr>
-    <tr>
+    <tr style ="background-color: ButtonHighlight">
         <td class="auto-style18" colspan="4">
             <input name="btnRefund" class="auto-style20" type="reset" value="Cancel Transaction" /></td>
         <td class="auto-style18" colspan="4">
