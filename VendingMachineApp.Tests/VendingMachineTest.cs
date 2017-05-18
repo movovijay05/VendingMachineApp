@@ -3,6 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VendingMachineApp.Models;
 using System.Collections.Generic;
 using System.Diagnostics;
+using VendingMachineApp.Constants;
 
 namespace VendingMachineApp.Tests
 {
@@ -11,6 +12,7 @@ namespace VendingMachineApp.Tests
     {
         VendingMachineLogic vendFun = new VendingMachineLogic();
         GenericFunctions genFun = new GenericFunctions();
+        VendingMachineCashEnum vCEnum = new VendingMachineCashEnum();
         [TestMethod]
         public void testifVMAcceptsOnlyNickelsDimesAndQuarters()
         {
@@ -54,17 +56,26 @@ namespace VendingMachineApp.Tests
         [TestMethod]
         public void testTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange()
         {
+            vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange = new Dictionary<string, int>();
+            vCEnum.totalRemainingCashInVM = new Dictionary<string, int>();
+            vCEnum.totalRemainingCashInVM.Add(CoinTypeEnum.QuartersName, 20);
+            vCEnum.totalRemainingCashInVM.Add(CoinTypeEnum.DimesName, 10);
+            vCEnum.totalRemainingCashInVM.Add(CoinTypeEnum.NickelsName, 10);
+
             Dictionary<string, int> checkTheNumberOfNickelsDimesAndQuartersRequired = new Dictionary<string, int>();
             // order of the below items is important
             checkTheNumberOfNickelsDimesAndQuartersRequired.Add("QUARTERS", 10);
             checkTheNumberOfNickelsDimesAndQuartersRequired.Add("DIMES", 1);
             checkTheNumberOfNickelsDimesAndQuartersRequired.Add("NICKELS", 1);
-            Assert.IsTrue(genFun.checkIfTwoStringIntDictionariesAreIdenticalWithoutSorting(checkTheNumberOfNickelsDimesAndQuartersRequired, vendFun.calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(2.65)));
+            vCEnum.changeToBeGivenToTheUser = 2.65;
+            
+            vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange = vendFun.calculateTheNumberOfNickelsDimesAndQuartersRequiredToMakeChange(vCEnum);
+            Assert.IsTrue(genFun.checkIfTwoStringIntDictionariesAreIdenticalWithoutSorting(checkTheNumberOfNickelsDimesAndQuartersRequired, vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange));
         }
         [TestMethod]
         public void testIfChangeNeedsToBeProvidedByVMOrUserNeedsToInputMoreCoins()
         {
-            Assert.AreEqual("1.25", vendFun.checkIfChangeNeedsToBeProvidedByVMOrUserNeedsToInputMoreCoins(8.75,7.50).ToString());
+            Assert.AreEqual("1.25", genFun.calculateBalance(7.50, 8.75).ToString());
         }
     }
 }

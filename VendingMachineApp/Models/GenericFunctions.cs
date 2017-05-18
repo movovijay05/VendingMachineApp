@@ -58,10 +58,10 @@ namespace VendingMachineApp.Models
             return true;
         }
 
-        public String printAStringIntDictionary(Dictionary<string, int> printableStringIntDcitionary)
+        public String printAStringIntDictionary(Dictionary<string, int> printableStringIntDictionary)
         {
             String dictionaryStringOutput = "";
-            foreach (var item in printableStringIntDcitionary)
+            foreach (var item in printableStringIntDictionary)
             {
                 dictionaryStringOutput += "\n" + item;
             }

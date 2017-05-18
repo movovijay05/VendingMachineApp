@@ -155,7 +155,7 @@ namespace VendingMachineApp.Models
             vCEnum.changeToBeGivenToTheUser = remainingChangeToBeGivenToTheUser(CoinTypeEnum.QuartersValue, CoinTypeEnum.QuartersName, vCEnum);
             vCEnum.changeToBeGivenToTheUser = remainingChangeToBeGivenToTheUser(CoinTypeEnum.DimesValue, CoinTypeEnum.DimesName, vCEnum);
             vCEnum.changeToBeGivenToTheUser = remainingChangeToBeGivenToTheUser(CoinTypeEnum.NickelsValue, CoinTypeEnum.NickelsName, vCEnum);
-            //Trace.WriteLine(genFun.printAStringIntDictionary(vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange));
+            Trace.WriteLine("1:" + genFun.printAStringIntDictionary(vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange));
             return vCEnum.numberOfNickelsDimesAndQuartersRequiredToMakeChange;
         }
         public string checkIfChangeNeedsToBeProvidedByVMOrUserNeedsToInputMoreCoins(VendingMachineCashEnum vCEnum)
@@ -174,8 +174,6 @@ namespace VendingMachineApp.Models
             }else{
                 messageToBeDisplayed = "Thanks for paying!!! Please collect the product";
             }
-            //uncomment below line for testing
-            //return vCEnum.balanceToBeDisplayed.ToString();
             return messageToBeDisplayed;
         }
         public bool checkIfThereisEnoughCashInVMAndUpdateRemainingCash(VendingMachineCashEnum vCEnum)
