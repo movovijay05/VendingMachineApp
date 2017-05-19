@@ -1,3 +1,5 @@
+
+
 # VendingMachineApp
 
 VendingMachineTest.cs in path VendingMachineApp\VendingMachineApp.Tests contains all the test files
@@ -9,3 +11,8 @@ VendingMachineController.cs in path VendingMachineApp\VendingMachineApp\Controll
 that are passed between the Model "VendingMachineLogic.cs" and View "VendingMachineDisplayView.cshtml"
 
 The view VendingMachineDisplayView.cshtml in path VendingMachineApp\VendingMachineApp\Views\VendingMachine contains the display page for the app.
+
+Build Instructions
+--------------------
+This project needs to be imported into Visual Studio to be executed.
+
